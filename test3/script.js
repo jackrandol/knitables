@@ -1,4 +1,3 @@
-// importing mesh from GLTFLoader, glft object made in blender 
 
 var scene = new THREE.Scene();
 
