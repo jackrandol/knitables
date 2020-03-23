@@ -3,3 +3,4 @@ node_modules
 secrets.json
 s3.js
 ses.js
+knitables.sql

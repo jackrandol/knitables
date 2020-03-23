@@ -37,6 +37,11 @@ const cookieSessionMiddleware = cookieSession({
     maxAge: 1000 * 60 * 60 * 24 * 90
 });
 
+app.use(cookieSessionMiddleware);
+io.use(function(socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+
 app.use(compression());
 
 app.use(
@@ -49,8 +54,6 @@ app.use(express.static("public"));
 app.use(express.static("uploads"));
 app.use(express.json());
 
-app.use(cookieSessionMiddleware);
-
 app.use(require("csurf")());
 
 app.use((req, res, next) => {
@@ -59,17 +62,24 @@ app.use((req, res, next) => {
     next();
 });
 
-
-if (process.env.NODE_ENV != 'production') {
+if (process.env.NODE_ENV != "production") {
     app.use(
-        '/bundle.js',
-        require('http-proxy-middleware')({
-            target: 'http://localhost:8081/'
+        "/bundle.js",
+        require("http-proxy-middleware")({
+            target: "http://localhost:8081/"
         })
     );
 } else {
-    app.use('/bundle.js', (req, res) => res.sendFile(`${__dirname}/bundle.js`));
+    app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
+
+app.get("/welcome", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
 
 app.post("/registration", async (req, res) => {
     const { first, last, email, password } = req.body;
@@ -85,10 +95,213 @@ app.post("/registration", async (req, res) => {
     }
 });
 
-app.get('*', function(req, res) {
-    res.sendFile(__dirname + '/index.html');
+app.post("/login", (req, res) => {
+    // console.log(req.body);
+    const userPWInput = req.body.password;
+    ///get the password from db.js
+    db.getPassword(req.body.email)
+        .then(results => {
+            console.log("results.rows:", results.rows);
+
+            compare(userPWInput, results.rows[0].password).then(matchValue => {
+                console.log("matchValue of compare:", matchValue);
+
+                if (matchValue == true) {
+                    req.session.userId = results.rows[0].id;
+
+                    console.log(
+                        "req.session.userId after true match:",
+                        req.session.userId
+                    );
+                    res.json(results.rows[0]);
+                } else {
+                    res.sendStatus(500);
+                }
+            });
+        })
+        .catch(error => {
+            console.log("error in catch post /login:", error);
+            res.json(error);
+        });
 });
 
-app.listen(8080, function() {
+app.post("/reset", (req, res) => {
+    console.log(req.body);
+
+    const secretCode = cryptoRandomString({
+        length: 6
+    });
+    let subject = "Reset Password for Social Network Now!";
+    let text =
+        "Dear User,  You have requested to change your password. " +
+        secretCode +
+        " is your code to change your password. Thanks BYE!!!";
+
+    db.getUserByEmail(req.body.email)
+        .then(results => {
+            console.log("results from db query by email", results.rows[0].id);
+            db.addCodeToTable(secretCode, req.body.email)
+                .then(() => {
+                    ///send Email to user with the code//
+                    ses.sendEmail(req.body.email, subject, text);
+                    res.sendStatus(200);
+                    ///do i need to res.json something here???
+                })
+                .catch(error => {
+                    console.log("error in catch post /reset:", error);
+                    res.sendStatus(500);
+                });
+        })
+        .catch(error => {
+            console.log("error in catch post /reset:", error);
+            res.sendStatus(500);
+        });
+});
+
+app.post("/resetPassword", (req, res) => {
+    console.log("body from resetPassword post", req.body.code);
+    db.getCode(req.body.email).then(response => {
+        console.log("response from db.checkCode:", response);
+
+        let lastIndex = response.rows.length - 1;
+
+        if (req.body.code == response.rows[lastIndex].code) {
+            hash(req.body.newpassword)
+                .then(hashedPassword => {
+                    db.updatePassword(hashedPassword, req.body.email);
+                    res.sendStatus(200);
+                })
+                .catch(error => {
+                    console.log(
+                        "error updating password although code was good",
+                        error
+                    );
+                });
+        } else {
+            res.sendStatus(500);
+        }
+    });
+});
+
+app.get("/user", (req, res) => {
+    // console.log("req.session.userId from get /user route:", req.session.userId);
+    //get the session cookie with the userID
+    let userId = req.session.userId;
+    db.getUser(userId).then(response => {
+        const { id, bio, first, last, imageurl } = response.rows[0];
+        // console.log(response.rows[0]);
+        res.json({
+            id: id,
+            first: first,
+            last: last,
+            image: imageurl || "/default.png",
+            bio: bio
+        });
+    });
+});
+
+app.post("/bio", (req, res) => {
+    // console.log("bio text from app.post to /bio", req.body.bioInputField);
+
+    let userId = req.session.userId;
+    db.addBio(req.body.bioInputField, userId).then(response => {
+        console.log("response from db.addBio:", response);
+        res.json(response);
+    });
+});
+
+app.post("/uploadImage", uploader.single("file"), s3.upload, (req, res) => {
+    // console.log("req:", req.file);
+
+    let userId = req.session.userId;
+
+    let fileUrl = "https://s3.amazonaws.com/littlegremlin/" + req.file.filename;
+    db.addImage(fileUrl, userId)
+        .then(function(response) {
+            // console.log("response promise from addImage query:", response);
+            // console.log('res.json of rows:', res.json(response.rows[0]));
+            console.log("response from post /uploadimage:", response.rows);
+            res.json(response.rows);
+        })
+        .catch(function(error) {
+            console.log("error in catch POST /upload:", error);
+            return res.json(error);
+        });
+});
+
+app.get("/logOut", (req, res) => {
+    req.session.userId = null;
+    console.log("user logged out");
+    res.sendStatus(200);
+});
+
+app.get("/wallPosts/:otherUserId", (req, res) => {
+    let otherUserId;
+
+    if(req.params.otherUserId) {
+        otherUserId = req.params.otherUserId;
+        db.getWallPosts(otherUserId).then(response => {
+            console.log("response of wall posts:", response.rows);
+            res.json(response.rows.reverse());
+        });
+    } else {
+        otherUserId = req.session.userId;
+        db.getWallPosts(otherUserId).then(response => {
+            console.log("response of wall posts:", response.rows);
+            res.json(response.rows.reverse());
+        });
+    }
+
+
+});
+
+app.post("/wallPost/:otherUserId/:post", (req, res) => {
+    console.log("req.params from wall post", req.params);
+
+    let newWallPostData = {};
+    db.getUser(req.session.userId).then(response => {
+        let { first, last, imageurl } = response.rows[0];
+        //add data from user to newWallPostData object
+        newWallPostData.first = first;
+        newWallPostData.last = last;
+        newWallPostData.imageurl = imageurl;
+
+        db.newWallPost(
+            req.session.userId,
+            req.params.post,
+            req.params.otherUserId
+        ).then(response => {
+            let {
+                id,
+                post,
+                receiver_id,
+                sender_id,
+                created_at
+            } = response.rows[0];
+            //add data about message to the object
+            newWallPostData.id = id;
+            newWallPostData.post = post;
+            newWallPostData.receiver_id = receiver_id;
+            newWallPostData.sender_id = sender_id;
+            newWallPostData.created_at = created_at;
+            console.log("newWallPostData", newWallPostData);
+            res.json(newWallPostData);
+        });
+    });
+});
+//// DONT DELETE OR COMMENT THIS OUT!!!! /////
+// app.get('api/*') this could
+
+app.get("*", function(req, res) {
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+        //check that they're not logged in
+    }
+});
+///// DONT TOUCH THIS!!!! ////
+
+server.listen(8080, function() {
     console.log("I'm listening.");
 });

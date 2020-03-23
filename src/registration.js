@@ -24,19 +24,19 @@ export default class Registration extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         //first check to see everything is there and then they are allowedd
-        // if (this.state.first && this.state.last && this.state.email && this.state.password) {
-        //     axios.post(`./registration`, this.state).then(function(resp){
-        //         console.log('handleSubmit info sent:', resp.data);
-        //         if (resp.data.id) {
-        //             location.replace('/');
-        //         }
-        //
-        //         console.log('state after checking!!!!', this.state);
-        //
-        //     }).catch(function(error) {
-        //         console.log("err in POST /registration:", error);
-        //     });
-        // }
+        if (this.state.first && this.state.last && this.state.email && this.state.password) {
+            axios.post(`./registration`, this.state).then(function(resp){
+                console.log('handleSubmit info sent:', resp.data);
+                if (resp.data.id) {
+                    location.replace('/');
+                }
+
+                console.log('state after checking!!!!', this.state);
+
+            }).catch(function(error) {
+                console.log("err in POST /registration:", error);
+            });
+        }
         if(!this.state.first) {
             this.setState({ errorFirst: 'First name field is empty!' });
         }

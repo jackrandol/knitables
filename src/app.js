@@ -1,0 +1,111 @@
+import React from "react";
+import axios from "./axioscopy";
+import Uploader from "./uploader";
+import Profile from "./profile";
+import Knit from "./knit";
+import { BrowserRouter, Route, Link } from "react-router-dom";
+
+export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {};
+        this.finishedUploading = this.finishedUploading.bind(this);
+        this.closeUploader = this.closeUploader.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.setBio = this.setBio.bind(this);
+        this.logOut = this.logOut.bind(this);
+    }
+
+    componentDidMount() {
+        axios.get("/user").then(
+            //call the app.get in index and receives info from the db.query
+            ({ data }) => {
+                this.setState(data);
+                console.log("data from mounting", data);
+            }
+        );
+    }
+
+    finishedUploading(url) {
+        this.setState({ image: url });
+        this.setState({ uploaderVisible: false });
+    }
+
+    setBio(bioText) {
+        console.log("bio set!!");
+        this.setState({ bio: bioText });
+    }
+
+    closeUploader() {
+        this.setState({ uploaderVisible: false });
+    }
+
+    handleClick() {
+        this.setState({ uploaderVisible: true });
+    }
+
+    logOut() {
+        axios.get("/logOut").then(() => {
+            console.log("user logged out");
+        });
+        location.replace("/welcome");
+    }
+
+    // link to other profiles with bowser router <Link to="/user/5"> Joe Schmo </link>
+    render() {
+        //check here to see if the ajax request is complete from componentDidMount
+        if (!this.state.id) {
+            //if it's not done return null to not render anything
+            return null;
+            //return <img src='/progressbar.gif' alt="Loading..."/>;
+        }
+        return (
+            <div>
+                <BrowserRouter>
+                    <div className="leftNav">
+                        <div className="hello">Hello {this.state.first}!</div>
+                        <button className="navButton" onClick={this.logOut}>
+                            log out
+                        </button>
+                        <Link className="navButton" to={`/`}>
+                            My Profile
+                        </Link>
+                        <Link className="navButton" to={"/knit"}>
+                            Knit
+                        </Link>
+
+                        <h1 className="navTitle">Knitables</h1>
+                    </div>
+
+                    <div className="appBoard">
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    url={this.state.image}
+                                    bio={this.state.bio}
+                                    handleClick={this.handleClick}
+                                    setBio={this.setBio}
+                                    id={this.id}
+                                />
+                            )}
+                        />
+                        {this.state.uploaderVisible && (
+                            <Uploader
+                                finishedUploading={this.finishedUploading}
+                                closeUploader={this.closeUploader}
+                            />
+                        )}
+
+
+                        <Route exact path="/knit" render={() => <Knit />} />
+                        
+                    </div>
+                </BrowserRouter>
+            </div>
+        );
+    }
+}
