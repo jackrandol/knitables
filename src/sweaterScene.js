@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-// const OrbitControls = require( 'three-orbitcontrols' )( THREE );
+const OrbitControls = require( 'three-orbitcontrols' )( THREE );
 
 export default function sweaterScene() {
     var scene = new THREE.Scene();
@@ -54,19 +54,22 @@ export default function sweaterScene() {
 
     var path = new CustomSinCurve(10);
     var tubeGeometry = new THREE.TubeGeometry(path, 20, 2, 10, false);
-    // var tubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    var tubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
     var material = new THREE.MeshPhongMaterial();
     var loader = new THREE.TextureLoader();
-    material.map = loader.load("./public/jenny.png");
+    material.map = loader.load("./jenny.png");
 
     var cylinder = new THREE.Mesh(cylinderGeometry, material);
-    var tubeMesh = new THREE.Mesh(tubeGeometry, material);
+    var tubeMesh = new THREE.Mesh(tubeGeometry, tubeMaterial);
     tubeMesh.position.set(20, 0, 0);
     tubeMesh.rotateX(-30);
     var earthMesh = new THREE.Mesh(geometry, material);
 
-    // var texture = new THREE.TextureLoader().load("jenny.png");
+    console.log('renderer.domElement:', renderer.domElement);
+
+    var orbit = new THREE.OrbitControls(camera, renderer.domElement);
+    orbit.enableZoom = false;
 
     //add meshes to group and then add group to scene
     var group = new THREE.Group();
@@ -77,8 +80,6 @@ export default function sweaterScene() {
 
     scene.add(group);
 
-    // var orbit = new THREE.OrbitControls(camera, renderer.domElement);
-    // orbit.enableZoom = false;
 
     var render = function() {
         requestAnimationFrame(render);

@@ -123,13 +123,8 @@ input {
     padding-left: 10px;
 }
 
-.animatedUserImage {
-    width: 200px;
-    height: 200px;
-    /* position: fixed; */
-    /* right: 15px;
-    top: 15px; */
-    /* border: blue solid 1px; */
+.scene {
+    
 }
 
 .navTitle {
