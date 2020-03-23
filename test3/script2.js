@@ -1,4 +1,4 @@
-var scene = new THREE.Scene()
+var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50)
 camera.position.z = 30
 
@@ -20,7 +20,8 @@ window.addEventListener('resize', () => {
 var geometry = new THREE.SphereGeometry( 10, 32, 32 )
 
 var cylinderGeometry = new THREE.CylinderGeometry(5, 5, 30, 30, { openEnded: true });
-var cylinder = new THREE.Mesh( cylinderGeometry, material);
+
+
 
 ////tube
 function CustomSinCurve( scale ) {
@@ -37,7 +38,7 @@ CustomSinCurve.prototype.constructor = CustomSinCurve;
 CustomSinCurve.prototype.getPoint = function ( t ) {
 
 	var tx = t * 3 - 1.5;
-	var ty = Math.sin( 2 * Math.PI * t );
+	var ty = Math.sin( 1 * Math.PI * t );
 	var tz = 0;
 
 	return new THREE.Vector3( tx, ty, tz ).multiplyScalar( this.scale );
@@ -45,22 +46,23 @@ CustomSinCurve.prototype.getPoint = function ( t ) {
 };
 
 var path = new CustomSinCurve( 10 );
-var tubeGeometry = new THREE.TubeGeometry( path, 20, 2, 8, false );
+var tubeGeometry = new THREE.TubeGeometry( path, 20, 2, 10, false );
 var tubeMaterial = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-var tubeMesh = new THREE.Mesh( tubeGeometry, tubeMaterial );
 
 
-var material = new THREE.MeshPhongMaterial()
+var material = new THREE.MeshPhongMaterial();
 var loader = new THREE.TextureLoader();
-material.map = loader.load('./jenny.png')
+material.map = loader.load('./jenny.png');
 
-
+var cylinder = new THREE.Mesh( cylinderGeometry, material);
+var tubeMesh = new THREE.Mesh( tubeGeometry, material );
+tubeMesh.position.set(20, 0, 0);
+tubeMesh.rotateX(-30);
 var earthMesh = new THREE.Mesh( geometry, material )
 
-// var texture = new THREE.TextureLoader().load('jenny.png');
-var material = new THREE.MeshBasicMaterial( { map: texture });
+var texture = new THREE.TextureLoader().load('jenny.png');
 
-//add meshes to group and then add group to scene 
+//add meshes to group and then add group to scene
 var group = new THREE.Group();
 
 group.add( earthMesh );
@@ -70,8 +72,8 @@ group.add( tubeMesh );
 
 scene.add( group );
 
-// var orbit = new THREE.OrbitControls(camera, renderer.domElement)
-// orbit.enableZoom = false
+var orbit = new THREE.OrbitControls(camera, renderer.domElement)
+orbit.enableZoom = false
 
 var render = function() {
     requestAnimationFrame(render)
