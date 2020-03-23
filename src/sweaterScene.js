@@ -68,7 +68,7 @@ export default function sweaterScene() {
 
     console.log('renderer.domElement:', renderer.domElement);
 
-    var orbit = new THREE.OrbitControls(camera, renderer.domElement);
+    var orbit = new OrbitControls(camera, renderer.domElement);
     orbit.enableZoom = false;
 
     //add meshes to group and then add group to scene
