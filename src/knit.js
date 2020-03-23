@@ -22,7 +22,6 @@ export default function Chat() {
         <div>
             <p>Knitting time</p>
             <div className="scene"></div>
-            <script src="sweaterScene.js"></script>
         </div>
     );
 }

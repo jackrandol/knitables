@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-const OrbitControls = require( 'three-orbitcontrols' )( THREE );
+import OrbitControls from 'three-orbitcontrols';
 
 export default function sweaterScene() {
     var scene = new THREE.Scene();
