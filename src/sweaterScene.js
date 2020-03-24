@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
 
-export default function sweaterScene(bodyImage, rightSleeve, leftSleeve) {
+export default function sweaterScene(bodyImage, rightSleeve, leftSleeve, headImage) {
 
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(
@@ -65,12 +65,13 @@ export default function sweaterScene(bodyImage, rightSleeve, leftSleeve) {
 
     var loader = new THREE.TextureLoader();
 
-    materialHead.map = loader.load('./hairlessRabbit.jpg')
+    materialHead.map = loader.load(headImage);
     materialBody.map = loader.load(bodyImage);
     materialRightSleeve.map = loader.load(rightSleeve);
     materialLeftSleeve.map = loader.load(leftSleeve);
 
 
+    var head = new THREE.Mesh(geometry, materialHead);
     var body = new THREE.Mesh(cylinderGeometry, materialBody);
     var rightArm = new THREE.Mesh(tubeGeometry, materialRightSleeve);
     var leftArm = new THREE.Mesh(tubeGeometry, materialLeftSleeve);
@@ -80,7 +81,6 @@ export default function sweaterScene(bodyImage, rightSleeve, leftSleeve) {
     // tubeMesh2.rotateX(5);
     body.rotateY(5);
     rightArm.rotateX(-5);
-    var head = new THREE.Mesh(geometry, materialHead);
     head.position.set(0, 25, 0);
 
     console.log('renderer.domElement:', renderer.domElement);
@@ -101,7 +101,7 @@ export default function sweaterScene(bodyImage, rightSleeve, leftSleeve) {
 
     var render = function() {
         requestAnimationFrame(render);
-        head.rotation.y += 0.005;
+        // head.rotation.y += 0.005;
         renderer.render(scene, camera);
     };
     render();

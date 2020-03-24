@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { uploadBodyImage, uploadRightSleeveImage, uploadLeftSleeveImage } from './actions';
 
 
@@ -7,6 +7,9 @@ export default function ImageUploader() {
 
     const [buttonText, setButtonText] = useState('Add Body Image');
     const [uploaderText, setUploaderText] = useState('What would you like to upload for the sweater Body?');
+
+    let bodyImage = useSelector(state => state && state.bodyImage);
+    let errorMessage = useSelector(state => state && state.error);
 
     const dispatch = useDispatch();
 
@@ -22,11 +25,17 @@ export default function ImageUploader() {
         image = e.target.files[0];
     };
 
-    const handleClick = () => {
+    const handleClick = (e) => {
+        e.preventDefault();
         if (buttonText == 'Add Body Image') {
             dispatch(uploadBodyImage(image));
-            setUploaderText('Add an image for the right sleeve.');
-            setButtonText('Add Right Sleeve Image');
+
+            if (bodyImage) {
+                let fileName = document.querySelector(".chooseFile");
+                fileName.innerText = 'choose file...';
+                setUploaderText('Add an image for the right sleeve.');
+                setButtonText('Add Right Sleeve Image');
+            }
         }
 
         if (buttonText == 'Add Right Sleeve Image') {
@@ -52,8 +61,9 @@ export default function ImageUploader() {
     return (
         <div>
             <div className="imageUploaderBox">
-                <h1>I am the image uploader</h1>
+                <h1>Image Uploader</h1>
                 <h1>{ uploaderText }</h1>
+                <p>{errorMessage && errorMessage}</p>
                 <input  onChange={handleFile} id='inputFile' type="file" name='file' accept='image/*' />
                 <label htmlFor='inputFile' className='chooseFile'>Choose a file</label>
 

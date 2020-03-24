@@ -3,7 +3,7 @@ import axios from "./axioscopy";
 
 export async function getImages() {
     const { data } = await axios.get(`/images`);
-    console.log('data from wall posts', data);
+    console.log("data from wall posts", data);
 
     return {
         type: "GET_IMAGES",
@@ -16,12 +16,20 @@ export async function uploadBodyImage(bodyImage) {
 
     formData.append("file", bodyImage);
 
-    const { data } = await axios.post("/uploadBodyImage", formData);
+    try {
+        const { data } = await axios.post("/uploadBodyImage", formData);
 
-    return {
-        type: "UPLOAD_BODY_IMAGE",
-        bodyImage: data
-    };
+        return {
+            type: "UPLOAD_BODY_IMAGE",
+            bodyImage: data,
+        };
+    } catch (error) {
+        console.log("error form the catch upload image body", error);
+        return {
+            type: "ERROR",
+            error: "something went wrong with your upload"
+        };
+    }
 }
 
 export async function uploadRightSleeveImage(image) {
@@ -51,24 +59,21 @@ export async function uploadLeftSleeveImage(image) {
 }
 
 export async function getWallPosts(otherUserId) {
-
     const { data } = await axios.get(`/wallPosts/${otherUserId}`);
-    console.log('data from wall posts', data);
+    console.log("data from wall posts", data);
 
     return {
         type: "WALL_POSTS",
         posts: data
     };
-
 }
 
 export async function newWallPost(otherUserId, post) {
-    console.log('info from action***, ', otherUserId, post);
+    console.log("info from action***, ", otherUserId, post);
     const { data } = await axios.post(`/wallPost/${otherUserId}/${post}`);
-    console.log('data from action:', data);
+    console.log("data from action:", data);
     return {
         type: "NEW_WALL_POST",
         newPost: data
     };
-
 }

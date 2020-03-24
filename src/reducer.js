@@ -3,6 +3,13 @@
 
 export default function(state = {}, action) {
 
+    if (action.type == "ERROR") {
+        state = {
+            ...state,
+            error: action.error
+        };
+    }
+
     if (action.type == "GET_IMAGES"){
         state = {
             ...state,

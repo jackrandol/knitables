@@ -112,7 +112,10 @@ exports.uploadLeftSleeve = function(url, userId) {
 
 exports.getImages = function (userId) {
     return db.query(
-        `SELECT * FROM sweater
+        `SELECT sweater.*, users.imageurl
+        FROM sweater
+        JOIN users
+        ON users.id = sweater.user_id
         WHERE user_id = $1`,
         [userId]
     );

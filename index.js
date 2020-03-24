@@ -231,7 +231,7 @@ app.post("/uploadBodyImage", uploader.single("file"), s3.upload, (req, res) => {
         })
         .catch(function(error) {
             console.log("error in catch POST /upload:", error);
-            return res.json(error);
+            return res.sendStatus(500);
         });
 });
 
