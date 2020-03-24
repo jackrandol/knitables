@@ -44,7 +44,7 @@ export default class Uploader extends React.Component {
             console.log('error from upload', error);
             this.setState({ errorMessage: "Something went wrong, please try again."});
         });
-        console.log("this.state in upload thing*******", this.state);
+
     }
 
     render() {

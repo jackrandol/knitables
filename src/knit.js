@@ -1,17 +1,20 @@
-import React, { useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import Moment from "react-moment";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import sweaterScene from "./sweaterScene";
+import ImageUploader from "./imageuploader";
+import { getScene } from './actions';
 
-export default function Chat() {
-    // let chatMessages = useSelector(state => state && state.messages);
-    //
-    // let onlineUsers = useSelector(state => state && state.onlineUsers);
 
+export default function Knit() {
+    const dispatch = useDispatch();
+
+    let bodyImage = useSelector(state => state && state.bodyImage);
 
     useEffect(() => {
-        sweaterScene();
+        if (!bodyImage) {
+            bodyImage = './hairlessRabbit.jpg';
+        }
+        sweaterScene(bodyImage);
     }, []);
     //will want to pass the array or variable thing to the array at the end there to
     //cause it to run everytime there's an update
@@ -22,6 +25,11 @@ export default function Chat() {
         <div>
             <p>Knitting time</p>
             <div className="scene"></div>
+
+            <div className="imageuploader">
+                <ImageUploader />
+            </div>
+
         </div>
     );
 }

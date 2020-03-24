@@ -74,6 +74,53 @@ exports.addImage = function(url, userId) {
     );
 };
 
+exports.addSweaterBodyImage = function(url, userId) {
+    console.log('data going into sweater parts tables');
+    return db.query(
+        `INSERT INTO sweater (body_image, user_id)
+        VALUES ($1, $2)
+        ON CONFLICT (user_id) DO
+        UPDATE SET body_image = $1
+        RETURNING id, user_id, body_image`,
+        [url, userId]
+    );
+};
+
+exports.uploadRightSleeve = function(url, userId) {
+    console.log('data going into sweater parts tables');
+    return db.query(
+        `INSERT INTO sweater (sleeve_right_image, user_id)
+        VALUES ($1, $2)
+        ON CONFLICT (user_id) DO
+        UPDATE SET sleeve_right_image = $1
+        RETURNING *`,
+        [url, userId]
+    );
+};
+
+exports.uploadLeftSleeve = function(url, userId) {
+    console.log('data going into sweater parts tables');
+    return db.query(
+        `INSERT INTO sweater (sleeve_left_image, user_id)
+        VALUES ($1, $2)
+        ON CONFLICT (user_id) DO
+        UPDATE SET sleeve_left_image = $1
+        RETURNING *`,
+        [url, userId]
+    );
+};
+
+exports.getImages = function (userId) {
+    return db.query(
+        `SELECT * FROM sweater
+        WHERE user_id = $1`,
+        [userId]
+    );
+};
+
+
+
+
 exports.addBio = function(bioText, userId) {
     console.log("data going into bio field!");
     return db.query(

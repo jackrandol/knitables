@@ -1,62 +1,52 @@
 // src/actions.js
 import axios from "./axioscopy";
 
-//need at least 3 functions here
-
-export default async function receiveFriends() {
-    const { data } = await axios.get("/friendsWannabes");
-
-    console.log("response.date from /friendsWAnnabes axios", data);
+export async function getImages() {
+    const { data } = await axios.get(`/images`);
+    console.log('data from wall posts', data);
 
     return {
-        type: "RECEIVE_FRIENDS",
-        friends: data
-    };
-
-}
-
-export async function acceptFriendRequest(otherUserId) {
-    const { data } = await axios.post(`/accept-friend-request/${otherUserId}`);
-
-    console.log('data from accept FriendRequest:', data);
-
-    return {
-        type: "ACCEPT_FRIEND_REQUEST",
-        acceptedFriendId: data
+        type: "GET_IMAGES",
+        images: data
     };
 }
 
-export async function unfriend(otherUserId) {
-    const { data } = await axios.post(`/cancel-friendship/${otherUserId}`);
-    console.log('data from unfriend', data);
+export async function uploadBodyImage(bodyImage) {
+    var formData = new FormData();
 
-    console.log('data from unfriend/cancel friendship:', data);
+    formData.append("file", bodyImage);
+
+    const { data } = await axios.post("/uploadBodyImage", formData);
 
     return {
-        type: "UNFRIEND",
-        deletedFriendId: data
+        type: "UPLOAD_BODY_IMAGE",
+        bodyImage: data
     };
 }
 
-export async function chatMessages(messages) {
+export async function uploadRightSleeveImage(image) {
+    var formData = new FormData();
+
+    formData.append("file", image);
+
+    const { data } = await axios.post("/uploadRightSleeve", formData);
+
     return {
-        type: "CHAT_MESSAGES",
-        messages: messages
+        type: "UPLOAD_RIGHT_SLEEVE",
+        rightSleeveImage: data
     };
 }
 
-export async function newMessage(newMsg) {
+export async function uploadLeftSleeveImage(image) {
+    var formData = new FormData();
+
+    formData.append("file", image);
+
+    const { data } = await axios.post("/uploadLeftSleeve", formData);
 
     return {
-        type: "NEW_MESSAGE",
-        newMessage: newMsg
-    };
-}
-
-export async function newUserJoined(onlineUsers) {
-    return {
-        type: "NEW_USER_JOINED",
-        onlineUsers: onlineUsers
+        type: "UPLOAD_LEFT_SLEEVE",
+        leftSleeveImage: data
     };
 }
 
@@ -82,12 +72,3 @@ export async function newWallPost(otherUserId, post) {
     };
 
 }
-
-///actions for chat will just pass the message on to the reducer
-
-//can use async / await here as well
-// export async function fn() {
-//     const {data} = await axios.get().then(() => {
-//
-//     })
-// }

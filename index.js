@@ -188,6 +188,8 @@ app.get("/user", (req, res) => {
     //get the session cookie with the userID
     let userId = req.session.userId;
     db.getUser(userId).then(response => {
+        console.log('userId trying:', userId);
+        console.log('that stupid response fuck:', response);
         const { id, bio, first, last, imageurl } = response.rows[0];
         // console.log(response.rows[0]);
         res.json({
@@ -197,8 +199,12 @@ app.get("/user", (req, res) => {
             image: imageurl || "/default.png",
             bio: bio
         });
+    }).catch(error => {
+        console.log('error from db of app.get /user', error);
     });
 });
+
+
 
 app.post("/bio", (req, res) => {
     // console.log("bio text from app.post to /bio", req.body.bioInputField);
@@ -208,6 +214,63 @@ app.post("/bio", (req, res) => {
         console.log("response from db.addBio:", response);
         res.json(response);
     });
+});
+
+app.post("/uploadBodyImage", uploader.single("file"), s3.upload, (req, res) => {
+    // console.log("req:", req.file);
+
+    let userId = req.session.userId;
+
+    let fileUrl = "https://s3.amazonaws.com/littlegremlin/" + req.file.filename;
+    db.addSweaterBodyImage(fileUrl, userId)
+        .then(function(response) {
+            // console.log("response promise from addImage query:", response);
+            // console.log('res.json of rows:', res.json(response.rows[0]));
+            console.log("response from post /uploadimage:", response.rows);
+            res.json(response.rows);
+        })
+        .catch(function(error) {
+            console.log("error in catch POST /upload:", error);
+            return res.json(error);
+        });
+});
+
+app.post("/uploadRightSleeve", uploader.single("file"), s3.upload, (req, res) => {
+    // console.log("req:", req.file);
+
+    let userId = req.session.userId;
+
+    let fileUrl = "https://s3.amazonaws.com/littlegremlin/" + req.file.filename;
+    db.uploadRightSleeve(fileUrl, userId)
+        .then(function(response) {
+            // console.log("response promise from addImage query:", response);
+            // console.log('res.json of rows:', res.json(response.rows[0]));
+            console.log("response from post /upload right sleeve:", response.rows);
+            res.json(response.rows);
+        })
+        .catch(function(error) {
+            console.log("error in catch POST /upload:", error);
+            return res.json(error);
+        });
+});
+
+app.post("/uploadLeftSleeve", uploader.single("file"), s3.upload, (req, res) => {
+    // console.log("req:", req.file);
+
+    let userId = req.session.userId;
+
+    let fileUrl = "https://s3.amazonaws.com/littlegremlin/" + req.file.filename;
+    db.uploadLeftSleeve(fileUrl, userId)
+        .then(function(response) {
+            // console.log("response promise from addImage query:", response);
+            // console.log('res.json of rows:', res.json(response.rows[0]));
+            console.log("response from post /upload right sleeve:", response.rows);
+            res.json(response.rows);
+        })
+        .catch(function(error) {
+            console.log("error in catch POST /upload:", error);
+            return res.json(error);
+        });
 });
 
 app.post("/uploadImage", uploader.single("file"), s3.upload, (req, res) => {
@@ -224,9 +287,19 @@ app.post("/uploadImage", uploader.single("file"), s3.upload, (req, res) => {
             res.json(response.rows);
         })
         .catch(function(error) {
-            console.log("error in catch POST /upload:", error);
+            console.log("error in catch POST", error);
             return res.json(error);
         });
+});
+
+app.get(`/images`, (req, res) => {
+    let userId = req.session.userId;
+    db.getImages(userId).then(response => {
+        res.json(response.rows);
+    }).catch(error => {
+        console.log('error getting image urls', error);
+        return res.sendStatus(500);
+    });
 });
 
 app.get("/logOut", (req, res) => {

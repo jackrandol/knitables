@@ -1,7 +1,8 @@
 import * as THREE from 'three';
 import OrbitControls from 'three-orbitcontrols';
 
-export default function sweaterScene() {
+export default function sweaterScene(bodyImage, rightSleeve, leftSleeve) {
+
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(
         75,
@@ -9,7 +10,7 @@ export default function sweaterScene() {
         0.1,
         50
     );
-    camera.position.z = 30;
+    camera.position.z = 50;
 
     var renderer = new THREE.WebGLRenderer();
 
@@ -28,10 +29,10 @@ export default function sweaterScene() {
         camera.updateProjectionMatrix();
     });
 
-    var geometry = new THREE.SphereGeometry(10, 32, 32);
+    var geometry = new THREE.SphereGeometry(9, 32, 32);
 
-    var cylinderGeometry = new THREE.CylinderGeometry(5, 5, 30, 30, {
-        openEnded: true
+    var cylinderGeometry = new THREE.CylinderGeometry(7, 10, 25, 30, {
+        openEnded: false
     });
 
     ////tube
@@ -56,15 +57,31 @@ export default function sweaterScene() {
     var tubeGeometry = new THREE.TubeGeometry(path, 20, 2, 10, false);
     var tubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
-    var material = new THREE.MeshPhongMaterial();
-    var loader = new THREE.TextureLoader();
-    material.map = loader.load("./jenny.png");
+    var materialHead = new THREE.MeshPhongMaterial();
+    var materialBody = new THREE.MeshPhongMaterial();
+    var materialRightSleeve = new THREE.MeshPhongMaterial();
+    var materialLeftSleeve = new THREE.MeshPhongMaterial();
 
-    var cylinder = new THREE.Mesh(cylinderGeometry, material);
-    var tubeMesh = new THREE.Mesh(tubeGeometry, tubeMaterial);
-    tubeMesh.position.set(20, 0, 0);
-    tubeMesh.rotateX(-30);
-    var earthMesh = new THREE.Mesh(geometry, material);
+
+    var loader = new THREE.TextureLoader();
+
+    materialHead.map = loader.load('./hairlessRabbit.jpg')
+    materialBody.map = loader.load(bodyImage);
+    materialRightSleeve.map = loader.load(rightSleeve);
+    materialLeftSleeve.map = loader.load(leftSleeve);
+
+
+    var body = new THREE.Mesh(cylinderGeometry, materialBody);
+    var rightArm = new THREE.Mesh(tubeGeometry, materialRightSleeve);
+    var leftArm = new THREE.Mesh(tubeGeometry, materialLeftSleeve);
+
+    rightArm.position.set(20, 0, 0);
+
+    // tubeMesh2.rotateX(5);
+    body.rotateY(5);
+    rightArm.rotateX(-5);
+    var head = new THREE.Mesh(geometry, materialHead);
+    head.position.set(0, 25, 0);
 
     console.log('renderer.domElement:', renderer.domElement);
 
@@ -74,17 +91,17 @@ export default function sweaterScene() {
     //add meshes to group and then add group to scene
     var group = new THREE.Group();
 
-    group.add(earthMesh);
-    group.add(cylinder);
-    group.add(tubeMesh);
+    group.add(head);
+    group.add(rightArm);
+    group.add(body);
+    group.add(leftArm);
 
     scene.add(group);
 
 
     var render = function() {
         requestAnimationFrame(render);
-        earthMesh.rotation.x += 0.005;
-        earthMesh.rotation.y += 0.005;
+        head.rotation.y += 0.005;
         renderer.render(scene, camera);
     };
     render();

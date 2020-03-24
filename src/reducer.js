@@ -1,6 +1,42 @@
 // src/reducer.js
 
+
 export default function(state = {}, action) {
+
+    if (action.type == "GET_IMAGES"){
+        state = {
+            ...state,
+            images: action.images[0]
+        };
+    }
+
+    if (action.type == "UPLOAD_BODY_IMAGE"){
+
+        state = {
+            ...state,
+            bodyImage: action.bodyImage[0].body_image
+        };
+
+    }
+
+    if (action.type == "UPLOAD_RIGHT_SLEEVE"){
+
+        state = {
+            ...state,
+            rightSleeveImage: action.rightSleeveImage[0].sleeve_right_image
+        };
+
+    }
+
+    if (action.type == "UPLOAD_LEFT_SLEEVE"){
+
+        state = {
+            ...state,
+            leftSleeveImage: action.leftSleeveImage[0].sleeve_left_image
+        };
+
+    }
+
     if (action.type == "RECEIVE_FRIENDS") {
         state = Object.assign({}, state, {
             friendships: action.friends

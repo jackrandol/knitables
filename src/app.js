@@ -3,6 +3,7 @@ import axios from "./axioscopy";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import Knit from "./knit";
+import Preview from "./preview";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -73,6 +74,9 @@ export default class App extends React.Component {
                         <Link className="navButton" to={"/knit"}>
                             Knit
                         </Link>
+                        <Link className="navButton" to={"/preview"}>
+                            Preview
+                        </Link>
 
                         <h1 className="navTitle">Knitables</h1>
                     </div>
@@ -102,7 +106,8 @@ export default class App extends React.Component {
 
 
                         <Route exact path="/knit" render={() => <Knit />} />
-                        
+                        <Route exact path="/preview" render={() => <Preview />} />
+
                     </div>
                 </BrowserRouter>
             </div>

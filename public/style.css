@@ -124,7 +124,8 @@ input {
 }
 
 .scene {
-    
+    position: absolute;
+    z-index: -1;
 }
 
 .navTitle {
@@ -215,67 +216,15 @@ button {
     width: 400px;
 }
 
-.allChat {
-    background-color: black;
-    color: white;
-    margin-top: 20px;
+
+.imageUploaderBox {
+    position: fixed;
+    top: 20px;
+    background-color: pink;
+    width: 200px;
+    height: 200px;
 }
 
-.chatField {
-    width: 500px;
-    margin: 0px;
-    padding: 0;
-}
-
-.chat-container {
-    height: 400px;
-    overflow-y: scroll;
-    width: 500px;
-    background-color: wheat;
-    border: 1px wheat solid;
-}
-
-.chatProfilePic {
-    width: 50px;
-    border-radius: 50px;
-}
-
-.chatmessage {
-    display: flex;
-    flex-direction: row;
-    padding: 5px 5px;
-
-}
-
-.chatTitle {
-    margin: 0px 5px;
-}
-
-.chatBoard {
-    display: flex;
-    flex-direction: row;
-
-}
-
-.rightSide {
-    margin-top: 20px;
-    background-image:linear-gradient(green, transparent);
-    color: white;
-}
-
-.onlineUser {
-    padding: 10px;
-}
-.messageText {
-    font-size: 12px;
-    margin: 0px 5px;
-    display: flex;
-    flex-direction: column;
-}
-
-.messageMoment {
-    color: grey;
-}
 
 .chooseFile {
     cursor: pointer;
@@ -287,27 +236,6 @@ button {
     cursor:pointer;
 }
 
-.findPeopleCard {
-    background-color: orange;
-    margin-right: 10px;
-    margin-bottom: 10px;
-    padding: 5px;
-}
-
-.FindPeople {
-    margin: 0px 10px;
-    width: 50%;
-}
-
-.findUserInput {
-    color: black !important;
-    border-bottom: 1px solid black !important;
-}
-.wall {
-    background-color: lime;
-    height: 200px;
-    overflow: scroll;
-}
 
 .wallPost {
     display: flex;

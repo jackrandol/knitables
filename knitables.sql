@@ -8,3 +8,14 @@ CREATE TABLE users(
       password VARCHAR(255) NOT NULL CHECK (password != ''),
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
+
+DROP TABLE IF EXISTS sweater;
+
+CREATE TABLE sweater(
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL UNIQUE REFERENCES users(id),
+    body_image VARCHAR,
+    sleeve_right_image VARCHAR,
+    sleeve_left_image VARCHAR,
+    rib VARCHAR
+);
