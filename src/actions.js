@@ -1,9 +1,27 @@
 // src/actions.js
 import axios from "./axioscopy";
 
+
+export async function getProjects() {
+    const { data } = await axios.get(`/api/projects`);
+
+    return {
+        type: "GET_PROJECTS",
+        projects: data
+    };
+}
+
+export async function getCurrentProject(projectId) {
+    const { data } = await axios.get(`/getCurrentProject/${projectId}`);
+    console.log('current project id:', projectId);
+    return{
+        type: "GET_CURRENT_PROJECT",
+        currentproject: data
+    };
+}
+
 export async function getImages() {
     const { data } = await axios.get(`/images`);
-    console.log("data from wall posts", data);
 
     return {
         type: "GET_IMAGES",

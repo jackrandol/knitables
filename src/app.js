@@ -4,6 +4,8 @@ import Uploader from "./uploader";
 import Profile from "./profile";
 import Knit from "./knit";
 import Preview from "./preview";
+import Projects from "./projects";
+import Project from "./project";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -61,7 +63,7 @@ export default class App extends React.Component {
             //return <img src='/progressbar.gif' alt="Loading..."/>;
         }
         return (
-            <div className='background'>
+            <div className="background">
                 <BrowserRouter>
                     <div className="leftNav">
                         <div className="hello">Hello {this.state.first}!</div>
@@ -76,6 +78,9 @@ export default class App extends React.Component {
                         </Link>
                         <Link className="navButton" to={"/preview"}>
                             Preview
+                        </Link>
+                        <Link className="navButton" to={"/projects"}>
+                            Projects
                         </Link>
 
                         <h1 className="navTitle">Knitables</h1>
@@ -104,10 +109,27 @@ export default class App extends React.Component {
                             />
                         )}
 
-
                         <Route exact path="/knit" render={() => <Knit />} />
-                        <Route exact path="/preview" render={() => <Preview />} />
-
+                        <Route
+                            exact
+                            path="/preview"
+                            render={() => <Preview />}
+                        />
+                        <Route
+                            exact
+                            path="/projects"
+                            render={() => <Projects />}
+                        />
+                        <Route
+                            path="/project/:id"
+                            render={props => (
+                                <Project
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
                     </div>
                 </BrowserRouter>
             </div>

@@ -8,6 +8,10 @@
     background-color: black;
 }
 
+.componentTitle {
+    color: white;
+}
+
 .appBoard {
     display: flex;
     flex-direction: row;
@@ -22,6 +26,7 @@
 p {
     margin: 3px 0px;
     font-size: 10px;
+    color: white;
 }
 
 h2 {
@@ -242,6 +247,17 @@ button {
     position:absolute;
     bottom: 5px;
     cursor:pointer;
+}
+
+.projectCard {
+    background-color: tomato;
+    height: 300px;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+.projectPic {
+    height: 200px;
 }
 
 

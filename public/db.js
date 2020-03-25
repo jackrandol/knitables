@@ -121,8 +121,26 @@ exports.getImages = function (userId) {
     );
 };
 
+exports.getAllProjects = function () {
+    return db.query(
+        `SELECT sweater.*, users.imageurl, users.first, users.last, users.created_at
+        FROM sweater
+        JOIN users
+        ON users.id = sweater.user_id`
+    );
+};
 
-
+exports.getCurrentProject = function (projectId) {
+    console.log('db query of getCurrentProject');
+    return db.query(
+        `SELECT * sweater.*, users.imageurl, users.first, users.last, users.created_at
+        FROM sweater
+        JOIN users
+        ON users.id = sweater.user_id
+        WHERE id = $1`,
+        [projectId]
+    );
+};
 
 exports.addBio = function(bioText, userId) {
     console.log("data going into bio field!");
@@ -136,14 +154,6 @@ exports.addBio = function(bioText, userId) {
 
 //for query getting password_reset_codes check the timestamp and see that it's not
 //more than ten minutes old
-exports.findMatching = function(val) {
-    return db.query (
-        `SELECT * FROM users
-        WHERE first ILIKE $1`,
-        [val + '%']
-    );
-};
-
 
 
 

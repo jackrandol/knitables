@@ -3,6 +3,20 @@
 
 export default function(state = {}, action) {
 
+    if (action.type == "GET_CURRENT_PROJECT") {
+        state = {
+            ...state,
+            currentProject: action.currentproject
+        };
+    }
+
+    if (action.type == "GET_PROJECTS") {
+        state = {
+            ...state,
+            projects: action.projects
+        };
+    }
+
     if (action.type == "ERROR") {
         state = {
             ...state,

@@ -101,18 +101,12 @@ app.post("/login", (req, res) => {
     ///get the password from db.js
     db.getPassword(req.body.email)
         .then(results => {
-            console.log("results.rows:", results.rows);
-
             compare(userPWInput, results.rows[0].password).then(matchValue => {
-                console.log("matchValue of compare:", matchValue);
+                // console.log("matchValue of compare:", matchValue);
 
                 if (matchValue == true) {
                     req.session.userId = results.rows[0].id;
 
-                    console.log(
-                        "req.session.userId after true match:",
-                        req.session.userId
-                    );
                     res.json(results.rows[0]);
                 } else {
                     res.sendStatus(500);
@@ -161,7 +155,6 @@ app.post("/reset", (req, res) => {
 app.post("/resetPassword", (req, res) => {
     console.log("body from resetPassword post", req.body.code);
     db.getCode(req.body.email).then(response => {
-        console.log("response from db.checkCode:", response);
 
         let lastIndex = response.rows.length - 1;
 
@@ -188,8 +181,6 @@ app.get("/user", (req, res) => {
     //get the session cookie with the userID
     let userId = req.session.userId;
     db.getUser(userId).then(response => {
-        console.log('userId trying:', userId);
-        console.log('that stupid response fuck:', response);
         const { id, bio, first, last, imageurl } = response.rows[0];
         // console.log(response.rows[0]);
         res.json({
@@ -211,22 +202,17 @@ app.post("/bio", (req, res) => {
 
     let userId = req.session.userId;
     db.addBio(req.body.bioInputField, userId).then(response => {
-        console.log("response from db.addBio:", response);
         res.json(response);
     });
 });
 
 app.post("/uploadBodyImage", uploader.single("file"), s3.upload, (req, res) => {
-    // console.log("req:", req.file);
 
     let userId = req.session.userId;
 
     let fileUrl = "https://s3.amazonaws.com/littlegremlin/" + req.file.filename;
     db.addSweaterBodyImage(fileUrl, userId)
         .then(function(response) {
-            // console.log("response promise from addImage query:", response);
-            // console.log('res.json of rows:', res.json(response.rows[0]));
-            console.log("response from post /uploadimage:", response.rows);
             res.json(response.rows);
         })
         .catch(function(error) {
@@ -245,7 +231,7 @@ app.post("/uploadRightSleeve", uploader.single("file"), s3.upload, (req, res) =>
         .then(function(response) {
             // console.log("response promise from addImage query:", response);
             // console.log('res.json of rows:', res.json(response.rows[0]));
-            console.log("response from post /upload right sleeve:", response.rows);
+            // console.log("response from post /upload right sleeve:", response.rows);
             res.json(response.rows);
         })
         .catch(function(error) {
@@ -264,7 +250,7 @@ app.post("/uploadLeftSleeve", uploader.single("file"), s3.upload, (req, res) => 
         .then(function(response) {
             // console.log("response promise from addImage query:", response);
             // console.log('res.json of rows:', res.json(response.rows[0]));
-            console.log("response from post /upload right sleeve:", response.rows);
+            // console.log("response from post /upload right sleeve:", response.rows);
             res.json(response.rows);
         })
         .catch(function(error) {
@@ -283,7 +269,7 @@ app.post("/uploadImage", uploader.single("file"), s3.upload, (req, res) => {
         .then(function(response) {
             // console.log("response promise from addImage query:", response);
             // console.log('res.json of rows:', res.json(response.rows[0]));
-            console.log("response from post /uploadimage:", response.rows);
+            // console.log("response from post /uploadimage:", response.rows);
             res.json(response.rows);
         })
         .catch(function(error) {
@@ -299,6 +285,21 @@ app.get(`/images`, (req, res) => {
     }).catch(error => {
         console.log('error getting image urls', error);
         return res.sendStatus(500);
+    });
+});
+
+app.get(`/getCurrentProject/:projectId`), (req, res) => {
+    console.log('made it to index.js get current');
+    db.getCurrentProject(req.params.projectId).then(response => {
+        console.log(response.rows);
+        res.json(response.rows);
+    });
+};
+
+app.get('/api/projects', (req, res) => {
+    db.getAllProjects().then(response => {
+        // console.log('projects response from db', response.rows);
+        res.json(response.rows);
     });
 });
 
