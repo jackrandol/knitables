@@ -63,15 +63,6 @@ export default function sweaterScene(
 
     // var tubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
-    var points = [];
-    for (var i = 0; i < 20; i++) {
-        points.push(new THREE.Vector2(8 + Math.sin(i * 0.02) * 20, i * 1.2));
-    }
-    // points = points.reverse();
-    var bodygeometry = new THREE.LatheGeometry(points);
-    console.log("points", points);
-    var newMaterialBody = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-    var newBody = new THREE.Mesh(bodygeometry, newMaterialBody);
 
     var loader = new THREE.TextureLoader();
 
@@ -82,6 +73,16 @@ export default function sweaterScene(
     var materialBody = new THREE.MeshPhongMaterial();
     materialBody.map = loader.load(bodyImage);
     var body = new THREE.Mesh(cylinderGeometry, materialBody);
+
+    //BODY
+    var points = [];
+    for (var i = 0; i < 18; i++) {
+        points.push(new THREE.Vector2(8 + Math.sin(i * 0.02) * 20, i * 1.2));
+    }
+    // points = points.reverse();
+    var bodygeometry = new THREE.LatheGeometry(points);
+    console.log("points", points);
+    var newBody = new THREE.Mesh(bodygeometry, materialBody);
 
     var materialRightSleeve = new THREE.MeshPhongMaterial();
     materialRightSleeve.map = loader.load(rightSleeve);
@@ -123,16 +124,16 @@ export default function sweaterScene(
 
     function createAGrid(opts) {
         var config = opts || {
-            height: 500,
-            width: 500,
+            height: 200,
+            width: 200,
             linesHeight: 10,
             linesWidth: 10,
-            color: 0xdd006c
+            color: 0xFFFFFF
         };
 
         var material = new THREE.LineBasicMaterial({
             color: config.color,
-            opacity: 0.2
+            opacity: 0.3
         });
 
         var gridObject = new THREE.Object3D(),
@@ -170,7 +171,7 @@ export default function sweaterScene(
     neckline.rotateX(Math.PI / 2);
     neckline.position.set(0, 5, 0);
     hem.rotateX(Math.PI / 2);
-    hem.position.set(0, -18, 0);
+    hem.position.set(0, -15.5, 0);
     leftCuff.rotateX(Math.PI / 2);
     leftCuff.position.set(-23, -10.4, 0);
     rightCuff.rotateX(Math.PI / 2);
