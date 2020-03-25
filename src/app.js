@@ -61,7 +61,7 @@ export default class App extends React.Component {
             //return <img src='/progressbar.gif' alt="Loading..."/>;
         }
         return (
-            <div>
+            <div className='background'>
                 <BrowserRouter>
                     <div className="leftNav">
                         <div className="hello">Hello {this.state.first}!</div>

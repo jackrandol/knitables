@@ -1,14 +1,18 @@
-import * as THREE from 'three';
-import OrbitControls from 'three-orbitcontrols';
+import * as THREE from "three";
+import OrbitControls from "three-orbitcontrols";
 
-export default function sweaterScene(bodyImage, rightSleeve, leftSleeve, headImage) {
-
+export default function sweaterScene(
+    bodyImage,
+    rightSleeve,
+    leftSleeve,
+    headImage
+) {
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
-        0.1,
-        50
+        0.01,
+        3000
     );
     camera.position.z = 50;
 
@@ -16,7 +20,7 @@ export default function sweaterScene(bodyImage, rightSleeve, leftSleeve, headIma
 
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    let sceneElement = document.querySelector('.scene');
+    let sceneElement = document.querySelector(".scene");
     sceneElement.appendChild(renderer.domElement);
 
     var light = new THREE.AmbientLight(0xffffff);
@@ -53,37 +57,130 @@ export default function sweaterScene(bodyImage, rightSleeve, leftSleeve, headIma
         return new THREE.Vector3(tx, ty, tz).multiplyScalar(this.scale);
     };
 
-    var path = new CustomSinCurve(10);
-    var tubeGeometry = new THREE.TubeGeometry(path, 20, 2, 10, false);
-    var tubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    var path = new CustomSinCurve(7);
 
-    var materialHead = new THREE.MeshPhongMaterial();
-    var materialBody = new THREE.MeshPhongMaterial();
-    var materialRightSleeve = new THREE.MeshPhongMaterial();
-    var materialLeftSleeve = new THREE.MeshPhongMaterial();
+    var tubeGeometry = new THREE.TubeGeometry(path, 20, 2.5, 9, false);
 
+    // var tubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+    var points = [];
+    for (var i = 0; i < 20; i++) {
+        points.push(new THREE.Vector2(8 + Math.sin(i * 0.02) * 20, i * 1.2));
+    }
+    // points = points.reverse();
+    var bodygeometry = new THREE.LatheGeometry(points);
+    console.log("points", points);
+    var newMaterialBody = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    var newBody = new THREE.Mesh(bodygeometry, newMaterialBody);
 
     var loader = new THREE.TextureLoader();
 
+    var materialHead = new THREE.MeshPhongMaterial();
     materialHead.map = loader.load(headImage);
-    materialBody.map = loader.load(bodyImage);
-    materialRightSleeve.map = loader.load(rightSleeve);
-    materialLeftSleeve.map = loader.load(leftSleeve);
-
-
     var head = new THREE.Mesh(geometry, materialHead);
+
+    var materialBody = new THREE.MeshPhongMaterial();
+    materialBody.map = loader.load(bodyImage);
     var body = new THREE.Mesh(cylinderGeometry, materialBody);
+
+    var materialRightSleeve = new THREE.MeshPhongMaterial();
+    materialRightSleeve.map = loader.load(rightSleeve);
     var rightArm = new THREE.Mesh(tubeGeometry, materialRightSleeve);
+
+    var materialLeftSleeve = new THREE.MeshPhongMaterial();
+    materialLeftSleeve.map = loader.load(leftSleeve);
     var leftArm = new THREE.Mesh(tubeGeometry, materialLeftSleeve);
 
-    rightArm.position.set(20, 0, 0);
+    var necklineGeometry = new THREE.TorusGeometry(7, 1.2, 30, 100);
+    var materialRib = new THREE.MeshPhongMaterial({ color: 0xffffff });
+    var neckline = new THREE.Mesh(necklineGeometry, materialRib);
 
-    // tubeMesh2.rotateX(5);
+    var hemGeometry = new THREE.TorusGeometry(14.8, 0.8, 30, 100);
+    var hem = new THREE.Mesh(hemGeometry, materialRib);
+
+    var cuffGeometry = new THREE.TorusGeometry(2, 0.8, 30, 100);
+
+    var leftCuff = new THREE.Mesh(cuffGeometry, materialRib);
+    var rightCuff = new THREE.Mesh(cuffGeometry, materialRib);
+
+    var basePlane = new THREE.PlaneBufferGeometry(20, 20, 20);
+
+    var wireframe = new THREE.WireframeGeometry(basePlane);
+
+    var line = new THREE.LineSegments(wireframe);
+    line.material.depthTest = false;
+    line.material.opacity = 0.25;
+    line.material.transparent = true;
+    //
+    // opts =
+    // {
+    //     height: width,
+    //     width: depth,
+    //     linesHeight: b,
+    //     linesWidth: c,
+    //     color: 0xcccccc
+    // }
+
+    function createAGrid(opts) {
+        var config = opts || {
+            height: 500,
+            width: 500,
+            linesHeight: 10,
+            linesWidth: 10,
+            color: 0xdd006c
+        };
+
+        var material = new THREE.LineBasicMaterial({
+            color: config.color,
+            opacity: 0.2
+        });
+
+        var gridObject = new THREE.Object3D(),
+            gridGeo = new THREE.Geometry(),
+            stepw = (2 * config.width) / config.linesWidth,
+            steph = (2 * config.height) / config.linesHeight;
+
+        //width
+        for (var i = -config.width; i <= config.width; i += stepw) {
+            gridGeo.vertices.push(new THREE.Vector3(-config.height, i, 0));
+            gridGeo.vertices.push(new THREE.Vector3(config.height, i, 0));
+        }
+        //height
+        for (var i = -config.height; i <= config.height; i += steph) {
+            gridGeo.vertices.push(new THREE.Vector3(i, -config.width, 0));
+            gridGeo.vertices.push(new THREE.Vector3(i, config.width, 0));
+        }
+
+        var line = new THREE.Line(gridGeo, material, THREE.Segments);
+        gridObject.add(line);
+
+        return gridObject;
+    }
+
+    var grid = createAGrid();
+
     body.rotateY(5);
-    rightArm.rotateX(-5);
-    head.position.set(0, 25, 0);
-
-    console.log('renderer.domElement:', renderer.domElement);
+    rightArm.position.set(14, -6, 0);
+    rightArm.rotateZ(-0.5);
+    leftArm.rotateZ(0.5);
+    leftArm.position.set(-14, -6, 0);
+    head.position.set(0, 20, 0);
+    newBody.position.set(0, 5, 0);
+    newBody.rotateX(Math.PI);
+    neckline.rotateX(Math.PI / 2);
+    neckline.position.set(0, 5, 0);
+    hem.rotateX(Math.PI / 2);
+    hem.position.set(0, -18, 0);
+    leftCuff.rotateX(Math.PI / 2);
+    leftCuff.position.set(-23, -10.4, 0);
+    rightCuff.rotateX(Math.PI / 2);
+    rightCuff.rotateY(0.3);
+    leftCuff.rotateY(-0.3);
+    rightCuff.position.set(23, -10.4, 0);
+    line.rotateX(Math.PI / 2);
+    line.position.set(0, -30, 0);
+    grid.rotateX(Math.PI /2);
+    grid.position.set(0, -30, 0);
 
     var orbit = new OrbitControls(camera, renderer.domElement);
     orbit.enableZoom = false;
@@ -91,17 +188,23 @@ export default function sweaterScene(bodyImage, rightSleeve, leftSleeve, headIma
     //add meshes to group and then add group to scene
     var group = new THREE.Group();
 
+
+    group.add(neckline);
     group.add(head);
     group.add(rightArm);
-    group.add(body);
+    // group.add(body);
     group.add(leftArm);
+    group.add(newBody);
+    group.add(hem);
+    group.add(leftCuff);
+    group.add(rightCuff);
+    group.add(grid);
 
     scene.add(group);
 
-
     var render = function() {
         requestAnimationFrame(render);
-        group.rotation.y += 0.005;
+        // group.rotation.y += 0.005;
         renderer.render(scene, camera);
     };
     render();

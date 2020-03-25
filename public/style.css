@@ -4,6 +4,10 @@
     text-decoration: none;
 }
 
+.background {
+    background-color: black;
+}
+
 .appBoard {
     display: flex;
     flex-direction: row;
@@ -114,17 +118,21 @@ input {
     display: flex;
     flex-direction: column;
     border-right: 1px black solid;
-    background-color: yellow;
+    background-color: blue;
     position: fixed;
+    top: 20px;
     left: -130px;
-    height: 90%;
+    height: 30%;
     width: 150px;
     padding-left: 10px;
+    z-index: 5;
 }
 
 .scene {
-    position: absolute;
-    z-index: -1;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    /* z-index: ; */
 }
 
 .navTitle {
@@ -219,9 +227,10 @@ button {
 .imageUploaderBox {
     position: fixed;
     top: 20px;
-    background-color: pink;
-    width: 200px;
-    height: 200px;
+    background-color: gray;
+    width: 300px;
+    height: 400px;
+    border: 1px lime solid;
 }
 
 
