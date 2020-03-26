@@ -5,7 +5,8 @@ export default function sweaterScene(
     bodyImage,
     rightSleeve,
     leftSleeve,
-    headImage
+    headImage,
+    ribColor
 ) {
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(
@@ -93,7 +94,7 @@ export default function sweaterScene(
     var leftArm = new THREE.Mesh(tubeGeometry, materialLeftSleeve);
 
     var necklineGeometry = new THREE.TorusGeometry(7, 1.2, 30, 100);
-    var materialRib = new THREE.MeshPhongMaterial({ color: 0xffffff });
+    var materialRib = new THREE.MeshPhongMaterial({ color: ribColor });
     var neckline = new THREE.Mesh(necklineGeometry, materialRib);
 
     var hemGeometry = new THREE.TorusGeometry(14.8, 0.8, 30, 100);

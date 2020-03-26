@@ -236,7 +236,7 @@ app.post("/uploadRightSleeve", uploader.single("file"), s3.upload, (req, res) =>
         })
         .catch(function(error) {
             console.log("error in catch POST /upload:", error);
-            return res.json(error);
+            return res.sendStatus(500);
         });
 });
 
@@ -255,8 +255,20 @@ app.post("/uploadLeftSleeve", uploader.single("file"), s3.upload, (req, res) => 
         })
         .catch(function(error) {
             console.log("error in catch POST /upload:", error);
-            return res.json(error);
+            return res.sendStatus(500);
         });
+});
+
+app.post(`/saveRibColor/:color`, (req, res) => {
+    let userId = req.session.userId;
+    console.log('color from index', req.params.color);
+    db.saveRibColor(req.params.color, userId).then(response => {
+        console.log('db rib color', response.rows);
+        res.json(response.rows);
+    }).catch(function(error) {
+        console.log("error in catch POST /upload:", error);
+        return res.sendStatus(500);
+    });
 });
 
 app.post("/uploadImage", uploader.single("file"), s3.upload, (req, res) => {
@@ -274,14 +286,14 @@ app.post("/uploadImage", uploader.single("file"), s3.upload, (req, res) => {
         })
         .catch(function(error) {
             console.log("error in catch POST", error);
-            return res.json(error);
+            return res.sendStatus(500);
         });
 });
 
-app.get(`/images`, (req, res) => {
+app.get(`/sweater`, (req, res) => {
     let userId = req.session.userId;
-    db.getImages(userId).then(response => {
-        res.json(response.rows);
+    db.getSweater(userId).then(response => {
+        res.json(response.rows[0]);
     }).catch(error => {
         console.log('error getting image urls', error);
         return res.sendStatus(500);

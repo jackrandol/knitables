@@ -23,6 +23,33 @@
     color: red;
 }
 
+@keyframes pulse {
+  from {
+    transform: scale3d(1, 1, 1);
+  }
+
+  50% {
+    transform: scale3d(1.05, 1.05, 1.05);
+  }
+
+  to {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.pulse {
+    animation-name: pulse;
+}
+
+
+.loading {
+    position: fixed;
+    color: pink;
+    font-size: 200px;
+    font-family: italic;
+    animation: pulse 1s infinite;
+}
+
 p {
     margin: 3px 0px;
     font-size: 10px;
@@ -296,17 +323,10 @@ button {
 	z-index: -1;
 }
 
-.friendsBox {
-    display: flex;
-    flex-direction: row;
-    width: 500px
-    height: 40%;
-    overflow: scroll;
-}
-.friendRequestBox {
-    display: flex;
-    flex-direction: row;
-    width: 500px;
-    height: 40%;
-    overflow: scroll;
+.pixelator {
+    position:fixed;
+    width: 200px;
+    height: 500px;
+    background-color: lime;
+    left: 500px;
 }

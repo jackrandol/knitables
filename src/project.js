@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getCurrentProject } from './actions';
 import sweaterScene from './sweaterScene';
 import Wall from './wall';
+import Pixelator from './pixelator';
 
 
 export default function Project() {
@@ -33,6 +34,7 @@ export default function Project() {
             }
 
             <Wall />
+            <Pixelator />
 
         </div>
     );

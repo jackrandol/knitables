@@ -110,7 +110,18 @@ exports.uploadLeftSleeve = function(url, userId) {
     );
 };
 
-exports.getImages = function (userId) {
+exports.saveRibColor = function(color, userId) {
+    return db.query(
+        `INSERT INTO sweater (rib, user_id)
+        VALUES ($1, $2)
+        ON CONFLICT (user_id) DO
+        UPDATE SET rib = $1
+        RETURNING *`,
+        [color, userId]
+    );
+};
+
+exports.getSweater = function (userId) {
     return db.query(
         `SELECT sweater.*, users.imageurl
         FROM sweater

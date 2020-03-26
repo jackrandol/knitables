@@ -24,15 +24,16 @@ export default function(state = {}, action) {
         };
     }
 
-    if (action.type == "GET_IMAGES"){
+    if (action.type == "GET_SWEATER") {
+
         state = {
             ...state,
-            images: action.images[0]
+            sweater: action.sweater
         };
     }
 
     if (action.type == "UPLOAD_BODY_IMAGE"){
-
+        delete state.error;
         state = {
             ...state,
             bodyImage: action.bodyImage[0].body_image
@@ -41,7 +42,7 @@ export default function(state = {}, action) {
     }
 
     if (action.type == "UPLOAD_RIGHT_SLEEVE"){
-
+        delete state.error;
         state = {
             ...state,
             rightSleeveImage: action.rightSleeveImage[0].sleeve_right_image
@@ -50,12 +51,20 @@ export default function(state = {}, action) {
     }
 
     if (action.type == "UPLOAD_LEFT_SLEEVE"){
-
+        delete state.error;
         state = {
             ...state,
             leftSleeveImage: action.leftSleeveImage[0].sleeve_left_image
         };
 
+    }
+
+    if (action.type == "SAVE_RIB_COLOR") {
+        delete state.error;
+        state = {
+            ...state,
+            ribColor: action.ribColor[0].rib
+        };
     }
 
     if (action.type == "WALL_POSTS") {
