@@ -19,3 +19,11 @@ CREATE TABLE sweater(
     sleeve_left_image VARCHAR,
     rib VARCHAR
 );
+
+CREATE TABLE wall (
+    id SERIAL PRIMARY KEY,
+    post VARCHAR(255) NOT NULL CHECK (post != ''),
+    project_id INT NOT NULL REFERENCES sweater(id),
+    sender_id INT NOT NULL REFERENCES users(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)

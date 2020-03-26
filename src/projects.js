@@ -22,6 +22,7 @@ export default function Projects() {
     return (
         <div>
             <p className="componentTitle">Projects</p>
+            <div className="scene"></div>
             {projects &&
                 projects.map(project => (
                     <div className="projectCard" key={project.id}>

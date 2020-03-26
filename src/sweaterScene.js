@@ -160,7 +160,6 @@ export default function sweaterScene(
 
     var grid = createAGrid();
 
-    body.rotateY(5);
     rightArm.position.set(14, -6, 0);
     rightArm.rotateZ(-0.5);
     leftArm.rotateZ(0.5);
@@ -181,7 +180,7 @@ export default function sweaterScene(
     line.rotateX(Math.PI / 2);
     line.position.set(0, -30, 0);
     grid.rotateX(Math.PI /2);
-    grid.position.set(0, -30, 0);
+    grid.position.set(0, -35, 0);
 
     var orbit = new OrbitControls(camera, renderer.domElement);
     orbit.enableZoom = false;
@@ -193,7 +192,6 @@ export default function sweaterScene(
     group.add(neckline);
     group.add(head);
     group.add(rightArm);
-    // group.add(body);
     group.add(leftArm);
     group.add(newBody);
     group.add(hem);

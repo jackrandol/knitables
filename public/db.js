@@ -133,11 +133,11 @@ exports.getAllProjects = function () {
 exports.getCurrentProject = function (projectId) {
     console.log('db query of getCurrentProject');
     return db.query(
-        `SELECT * sweater.*, users.imageurl, users.first, users.last, users.created_at
+        `SELECT sweater.*, users.imageurl, users.first, users.last, users.created_at
         FROM sweater
         JOIN users
         ON users.id = sweater.user_id
-        WHERE id = $1`,
+        WHERE sweater.id = $1`,
         [projectId]
     );
 };
@@ -157,23 +157,23 @@ exports.addBio = function(bioText, userId) {
 
 
 
-exports.newWallPost = function (sender_id, post, receiver_id) {
+exports.newWallPost = function (sender_id, post, project_id) {
     return db.query(
-        `INSERT INTO wall (sender_id, post, receiver_id)
+        `INSERT INTO wall (sender_id, post, project_id)
         VALUES ($1, $2, $3)
         RETURNING *`,
-        [sender_id, post, receiver_id]
+        [sender_id, post, project_id]
     );
 };
 
-exports.getWallPosts = function (otherUserId) {
+exports.getWallPosts = function (projectId) {
     return db.query(
-        `SELECT wall.id, wall.post, wall.sender_id, wall.receiver_id, wall.created_at,users.first, users.last, users.imageurl
+        `SELECT wall.*, users.first, users.last, users.imageurl
         FROM wall
-        LEFT JOIN users
+        JOIN users
         ON wall.sender_id = users.id
-        WHERE (receiver_id = $1)
+        WHERE (project_id = $1)
         ORDER BY created_at ASC`,
-        [otherUserId]
+        [projectId]
     );
 };

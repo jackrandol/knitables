@@ -288,13 +288,13 @@ app.get(`/images`, (req, res) => {
     });
 });
 
-app.get(`/getCurrentProject/:projectId`), (req, res) => {
+app.get(`/getCurrentProject/:projectId`, (req, res) => {
     console.log('made it to index.js get current');
     db.getCurrentProject(req.params.projectId).then(response => {
         console.log(response.rows);
         res.json(response.rows);
     });
-};
+});
 
 app.get('/api/projects', (req, res) => {
     db.getAllProjects().then(response => {
@@ -309,27 +309,16 @@ app.get("/logOut", (req, res) => {
     res.sendStatus(200);
 });
 
-app.get("/wallPosts/:otherUserId", (req, res) => {
-    let otherUserId;
+app.get("/wallPosts/:projectId", (req, res) => {
 
-    if(req.params.otherUserId) {
-        otherUserId = req.params.otherUserId;
-        db.getWallPosts(otherUserId).then(response => {
-            console.log("response of wall posts:", response.rows);
-            res.json(response.rows.reverse());
-        });
-    } else {
-        otherUserId = req.session.userId;
-        db.getWallPosts(otherUserId).then(response => {
-            console.log("response of wall posts:", response.rows);
-            res.json(response.rows.reverse());
-        });
-    }
-
-
+    db.getWallPosts(req.params.projectId).then(response => {
+        console.log("response of wall posts:", response.rows);
+        res.json(response.rows.reverse());
+    });
 });
 
-app.post("/wallPost/:otherUserId/:post", (req, res) => {
+
+app.post("/wallPost/:projectId/:post", (req, res) => {
     console.log("req.params from wall post", req.params);
 
     let newWallPostData = {};
@@ -343,19 +332,19 @@ app.post("/wallPost/:otherUserId/:post", (req, res) => {
         db.newWallPost(
             req.session.userId,
             req.params.post,
-            req.params.otherUserId
+            req.params.projectId
         ).then(response => {
             let {
                 id,
                 post,
-                receiver_id,
+                project_id,
                 sender_id,
                 created_at
             } = response.rows[0];
             //add data about message to the object
             newWallPostData.id = id;
             newWallPostData.post = post;
-            newWallPostData.receiver_id = receiver_id;
+            newWallPostData.project_id = project_id;
             newWallPostData.sender_id = sender_id;
             newWallPostData.created_at = created_at;
             console.log("newWallPostData", newWallPostData);

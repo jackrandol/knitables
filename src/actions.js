@@ -14,10 +14,12 @@ export async function getProjects() {
 export async function getCurrentProject(projectId) {
     const { data } = await axios.get(`/getCurrentProject/${projectId}`);
     console.log('current project id:', projectId);
+
     return{
         type: "GET_CURRENT_PROJECT",
         currentproject: data
     };
+
 }
 
 export async function getImages() {
@@ -76,8 +78,8 @@ export async function uploadLeftSleeveImage(image) {
     };
 }
 
-export async function getWallPosts(otherUserId) {
-    const { data } = await axios.get(`/wallPosts/${otherUserId}`);
+export async function getWallPosts(projectId) {
+    const { data } = await axios.get(`/wallPosts/${projectId}`);
     console.log("data from wall posts", data);
 
     return {
@@ -86,9 +88,9 @@ export async function getWallPosts(otherUserId) {
     };
 }
 
-export async function newWallPost(otherUserId, post) {
-    console.log("info from action***, ", otherUserId, post);
-    const { data } = await axios.post(`/wallPost/${otherUserId}/${post}`);
+export async function newWallPost(projectId, post) {
+    console.log("info from action***, ", projectId);
+    const { data } = await axios.post(`/wallPost/${projectId}/${post}`);
     console.log("data from action:", data);
     return {
         type: "NEW_WALL_POST",
