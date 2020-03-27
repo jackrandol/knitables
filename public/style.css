@@ -7,6 +7,8 @@
 
 .background {
     background-color: black;
+    height: 100%;
+    width: 100%;
 }
 
 .componentTitle {
@@ -332,8 +334,10 @@ button {
 
 .projectBoard {
     display: grid;
-    width: 100vh;
+    width: 100%;
     grid-template-columns: 1fr 1fr 1fr;
+    overflow: scroll;
+    background-color: black;
 }
 
 .projectCard {

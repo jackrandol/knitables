@@ -8,7 +8,7 @@ import {
 } from "./actions";
 import { Link } from "react-router-dom";
 import { SliderPicker } from "react-color";
-import loadingMesh from './loadingMesh';
+import loadingMesh from "./loadingMesh";
 
 export default function ImageUploader() {
     const [buttonText, setButtonText] = useState("Add Body Image");
@@ -40,8 +40,8 @@ export default function ImageUploader() {
     let fileName = document.querySelector(".chooseFile");
 
     useEffect(() => {
+        toggleLoading(false);
         if (bodyImage) {
-            toggleLoading(false);
             fileName.innerText = "choose file...";
             setUploaderText("Add an image for the right sleeve.");
             setButtonText("Add Right Sleeve Image");
@@ -77,10 +77,13 @@ export default function ImageUploader() {
             toggleError(true);
         }
 
+    }, [bodyImage, rightSleeve, leftSleeve, ribColor, errorMessageFromReducer]);
+
+    useEffect(()=> {
         if(isloading) {
             loadingMesh();
         }
-    }, [bodyImage, rightSleeve, leftSleeve, ribColor, errorMessageFromReducer, isloading]);
+    }, [isloading]);
 
     const handleClick = e => {
         e.preventDefault();
@@ -102,6 +105,7 @@ export default function ImageUploader() {
 
         if (buttonText == "set color") {
             dispatch(saveRibColor(color));
+            toggleLoading(true);
         }
     };
 
@@ -129,20 +133,23 @@ export default function ImageUploader() {
                     <label htmlFor="inputFile" className="chooseFile">
                         Choose a file
                     </label>
-                    {isloading &&
-                        <div className='loadingMesh'>
+                    {isloading && (
+
+                        <div className="loadingMesh">
                             <h1 className="loading">Loading...</h1>
                         </div>
-                    }
+                    )}
+
+                    {leftSleeve && !ribColor && (
+                        <SliderPicker onChange={handleColor} />
+                    )}
+
                     {!ribColor && (
                         <button onClick={handleClick} className="submitButton">
                             {buttonText}
                         </button>
                     )}
 
-                    {leftSleeve && !ribColor && (
-                        <SliderPicker onChange={handleColor} />
-                    )}
                     {ribColor && (
                         <Link className="navButton" to="/preview">
                             see preview!
