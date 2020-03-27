@@ -14,7 +14,9 @@ export default function Preview() {
     }, []);
     return (
         <div>
-            <h1>Preview Time!</h1>
+            <div className='previewTitle'>
+            <h1 className="componentTitle">Project Preview</h1>
+            </div>
             <div className="scene"></div>
             {sweater && sweaterScene(sweater.body_image, sweater.sleeve_right_image, sweater.sleeve_left_image, sweater.imageurl, sweater.rib) }
         </div>

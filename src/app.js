@@ -7,6 +7,7 @@ import Preview from "./preview";
 import Projects from "./projects";
 import Project from "./project";
 import { BrowserRouter, Route, Link } from "react-router-dom";
+import logoMesh from './logo';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -27,6 +28,11 @@ export default class App extends React.Component {
                 console.log("data from mounting", data);
             }
         );
+
+        setTimeout( ()=>{
+            logoMesh();
+        },300);
+
     }
 
     finishedUploading(url) {
@@ -66,10 +72,8 @@ export default class App extends React.Component {
             <div className="background">
                 <BrowserRouter>
                     <div className="leftNav">
+                        <div className='logoMesh'></div>
                         <div className="hello">Hello {this.state.first}!</div>
-                        <button className="navButton" onClick={this.logOut}>
-                            log out
-                        </button>
                         <Link className="navButton" to={`/`}>
                             My Profile
                         </Link>
@@ -82,8 +86,11 @@ export default class App extends React.Component {
                         <Link className="navButton" to={"/projects"}>
                             Projects
                         </Link>
+                        <button className="navButton" onClick={this.logOut}>
+                        log out
+                        </button>
 
-                        <h1 className="navTitle">Knitables</h1>
+                        <h1 className="navTitle">Knitables</h1> <h1 className="navTitle">↓</h1>
                     </div>
 
                     <div className="appBoard">

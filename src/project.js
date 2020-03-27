@@ -28,13 +28,12 @@ export default function Project() {
             {currentProject && currentProject.map(project => (
                 <div key = {project.id}>
                     <p>{project.first} {project.last}</p>
-                    { sweaterScene(project.body_image, project.sleeve_right_image, project.sleeve_left_image, project.imageurl) }
+                    { sweaterScene(project.body_image, project.sleeve_right_image, project.sleeve_left_image, project.imageurl, project.rib) }
                 </div>
             ))
             }
 
             <Wall />
-            <Pixelator />
 
         </div>
     );

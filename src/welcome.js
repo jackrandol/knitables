@@ -14,8 +14,8 @@ export default function Welcome() {
         //using exact takes care that it has to be exaclty the / and nothing else
         <div>
             <HashRouter>
-                <div>
-                    <h1>Welcome to Knitables</h1>
+                <div className='registration'>
+                    <h1 className='welcomeTitle'>KNITABLES</h1>
                     <Route exact component={Registration} path="/" />
                     <Route component={Login} path="/login" />
                     <Route component={Reset} path="/reset" />

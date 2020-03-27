@@ -1,19 +1,30 @@
-import React, { useEffect } from 'react';
-import pixelatorMachine from './pixelatorMachine';
+import React, { useEffect } from "react";
+import pixelatorMachine from "./pixelatorMachine";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Pixelator() {
-
-    let image = '/default.png';
+    let currentProject = useSelector(state => state && state.currentProject);
+    // let image = '/default.png';
 
     useEffect(() => {
-        pixelatorMachine(image);
-    },[]);
+        console.log("info from state", currentProject);
+        if (currentProject) {
+        let image = currentProject[0].body_image;
+        // pixelatorMachine(image);
+        }
+
+    }, [currentProject]);
 
     return (
         <div>
             <div className="pixelator">
-                <p>pixel image maker!</p>
-                <img id='image1' src='/default.png'/>
+                {currentProject &&
+                    currentProject.map(project => (
+                        <div className="pixelimage" key={project.id}>
+                            <h1>{project.id}</h1>
+                            <img id="image1" src={project.body_image} />
+                        </div>
+                    ))}
             </div>
         </div>
     );

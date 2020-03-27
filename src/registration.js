@@ -55,6 +55,7 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div>
+
                 <h1>Register</h1>
 
                 <p className='errorMessage' > { this.state.errorFirst } </p>
@@ -62,17 +63,18 @@ export default class Registration extends React.Component {
                 <p className='errorMessage' > { this.state.errorEmail } </p>
                 <p className='errorMessage' > { this.state.errorPassword } </p>
 
-
                 <form>
-                    <input onChange={ this.handleChange } name='first' type='text' placeholder='first name' />
-                    <input onChange={ this.handleChange } name='last' type='text' placeholder='last name'/>
-                    <input onChange={ this.handleChange } name='email' type='text' placeholder='email'/>
-                    <input onChange={ this.handleChange } name='password' type='password' placeholder='password'/>
-                    <div className='loginButton' onClick={ this.handleSubmit }>submit</div>
+                    <div className="registrationFields">
+                        <input onChange={ this.handleChange } name='first' type='text' placeholder='first name' />
+                        <input onChange={ this.handleChange } name='last' type='text' placeholder='last name'/>
+                        <input onChange={ this.handleChange } name='email' type='text' placeholder='email'/>
+                        <input onChange={ this.handleChange } name='password' type='password' placeholder='password'/>
+                        <div className='loginButton' onClick={ this.handleSubmit }>submit</div>
+                    </div>
                 </form>
                 <Link className='loginButton' to='/login'>Log in</Link>
             </div>
             //only need the Link component for routes you have in your HashRouter//
-        );
+        )
     }
 }

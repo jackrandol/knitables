@@ -23,6 +23,7 @@ export default function Projects() {
         <div>
             <p className="componentTitle">Projects</p>
             <div className="scene"></div>
+            <div className='projectBoard'>
             {projects &&
                 projects.map(project => (
                     <div className="projectCard" key={project.id}>
@@ -35,16 +36,17 @@ export default function Projects() {
                                 alt={`${project.first} ${project.last}`}
                             />
                             <p>
-                                {" "}
-                                from {project.first} {project.last}{" "}
+                                {project.first} {project.last}
                             </p>
                             <p className="messageMoment">
-                                joined
+                                joined knitables {" "}
                                 <Moment fromNow>{project.created_at}</Moment>
                             </p>
+                            <p>{project.bio}</p>
                         </Link>
                     </div>
                 ))}
+                </div>
         </div>
     );
 }

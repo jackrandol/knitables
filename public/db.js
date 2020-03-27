@@ -134,7 +134,7 @@ exports.getSweater = function (userId) {
 
 exports.getAllProjects = function () {
     return db.query(
-        `SELECT sweater.*, users.imageurl, users.first, users.last, users.created_at
+        `SELECT sweater.*, users.bio, users.imageurl, users.first, users.last, users.created_at
         FROM sweater
         JOIN users
         ON users.id = sweater.user_id`
