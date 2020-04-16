@@ -4,7 +4,7 @@ import {
     uploadBodyImage,
     uploadRightSleeveImage,
     uploadLeftSleeveImage,
-    saveRibColor
+    saveRibColor,
 } from "./actions";
 import { Link } from "react-router-dom";
 import { SliderPicker } from "react-color";
@@ -18,18 +18,18 @@ export default function ImageUploader() {
     const [isloading, toggleLoading] = useState(false);
     const [errorMessage, toggleError] = useState(false);
 
-    let bodyImage = useSelector(state => state && state.bodyImage);
-    let rightSleeve = useSelector(state => state && state.rightSleeveImage);
-    let leftSleeve = useSelector(state => state && state.leftSleeveImage);
-    let ribColor = useSelector(state => state && state.ribColor);
-    let errorMessageFromReducer = useSelector(state => state && state.error);
+    let bodyImage = useSelector((state) => state && state.bodyImage);
+    let rightSleeve = useSelector((state) => state && state.rightSleeveImage);
+    let leftSleeve = useSelector((state) => state && state.leftSleeveImage);
+    let ribColor = useSelector((state) => state && state.ribColor);
+    let errorMessageFromReducer = useSelector((state) => state && state.error);
 
     const dispatch = useDispatch();
 
     let image;
     let color;
 
-    const handleFile = e => {
+    const handleFile = (e) => {
         console.log("e.target", e.target.files[0]);
         let fileName = document.querySelector(".chooseFile");
         fileName.innerText = e.target.files[0].name.slice(0, 15) + " . . .";
@@ -76,16 +76,15 @@ export default function ImageUploader() {
             toggleLoading(false);
             toggleError(true);
         }
-
     }, [bodyImage, rightSleeve, leftSleeve, ribColor, errorMessageFromReducer]);
 
-    useEffect(()=> {
-        if(isloading) {
+    useEffect(() => {
+        if (isloading) {
             loadingMesh();
         }
     }, [isloading]);
 
-    const handleClick = e => {
+    const handleClick = (e) => {
         e.preventDefault();
 
         if (buttonText == "Add Body Image") {
@@ -109,7 +108,7 @@ export default function ImageUploader() {
         }
     };
 
-    const handleColor = e => {
+    const handleColor = (e) => {
         let rgbColor = `rgb(${e.rgb.r}, ${e.rgb.g}, ${e.rgb.b})`;
         color = rgbColor;
     };
@@ -134,7 +133,6 @@ export default function ImageUploader() {
                         Choose a file
                     </label>
                     {isloading && (
-
                         <div className="loadingMesh">
                             <h1 className="loading">Loading...</h1>
                         </div>

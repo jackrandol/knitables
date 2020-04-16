@@ -9,8 +9,6 @@ CREATE TABLE users(
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 
-DROP TABLE IF EXISTS sweater;
-
 CREATE TABLE sweater(
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL UNIQUE REFERENCES users(id),

@@ -7,7 +7,7 @@ import Preview from "./preview";
 import Projects from "./projects";
 import Project from "./project";
 import { BrowserRouter, Route, Link } from "react-router-dom";
-import logoMesh from './logo';
+import logoMesh from "./logo";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -21,18 +21,14 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("/user").then(
-            //call the app.get in index and receives info from the db.query
-            ({ data }) => {
-                this.setState(data);
-                console.log("data from mounting", data);
-            }
-        );
+        axios.get("/user").then(({ data }) => {
+            this.setState(data);
+            console.log("data from mounting", data);
+        });
 
-        setTimeout( ()=>{
+        setTimeout(() => {
             logoMesh();
-        },300);
-
+        }, 300);
     }
 
     finishedUploading(url) {
@@ -60,19 +56,15 @@ export default class App extends React.Component {
         location.replace("/welcome");
     }
 
-    // link to other profiles with bowser router <Link to="/user/5"> Joe Schmo </link>
     render() {
-        //check here to see if the ajax request is complete from componentDidMount
         if (!this.state.id) {
-            //if it's not done return null to not render anything
             return null;
-            //return <img src='/progressbar.gif' alt="Loading..."/>;
         }
         return (
             <div className="background">
                 <BrowserRouter>
                     <div className="leftNav">
-                        <div className='logoMesh'></div>
+                        <div className="logoMesh"></div>
                         <div className="hello">Hello {this.state.first}!</div>
                         <Link className="navButton" to={`/`}>
                             My Profile
@@ -87,10 +79,10 @@ export default class App extends React.Component {
                             Projects
                         </Link>
                         <button className="navButton" onClick={this.logOut}>
-                        log out
+                            log out
                         </button>
-
-                        <h1 className="navTitle">Knitables</h1> <h1 className="navTitle">↓</h1>
+                        <h1 className="navTitle">Knitables</h1>{" "}
+                        <h1 className="navTitle">↓</h1>
                     </div>
 
                     <div className="appBoard">
@@ -129,7 +121,7 @@ export default class App extends React.Component {
                         />
                         <Route
                             path="/project/:id"
-                            render={props => (
+                            render={(props) => (
                                 <Project
                                     key={props.match.url}
                                     match={props.match}

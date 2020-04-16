@@ -3,15 +3,10 @@ import OrbitControls from "three-orbitcontrols";
 
 export default function loadingMesh() {
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(
-        75,
-        400 / 400,
-        0.01,
-        3000
-    );
+    var camera = new THREE.PerspectiveCamera(75, 400 / 400, 0.01, 3000);
     camera.position.z = 80;
 
-    var renderer = new THREE.WebGLRenderer( { alpha: true } );
+    var renderer = new THREE.WebGLRenderer({ alpha: true });
 
     renderer.setSize(400, 400);
 
@@ -24,31 +19,29 @@ export default function loadingMesh() {
     var light2 = new THREE.PointLight(0xffffff, 0.5);
     scene.add(light2);
 
-    // var geometry = new THREE.SphereGeometry(30, 32, 32);
-
-
     var cylinderGeometry = new THREE.CylinderGeometry(1, 4, 10, 30, {
-        openEnded: false
+        openEnded: false,
     });
 
     var knittingShaft = new THREE.CylinderGeometry(4, 4, 50, 30);
-    var baseGeo = new THREE.CylinderGeometry(5.5,5.5, 7, 30);
+    var baseGeo = new THREE.CylinderGeometry(5.5, 5.5, 7, 30);
 
     var cylinderGeometry2 = new THREE.CylinderGeometry(1, 4, 10, 30, {
-        openEnded: false
+        openEnded: false,
     });
 
     var knittingShaft2 = new THREE.CylinderGeometry(4, 4, 50, 30);
-    var baseGeo2 = new THREE.CylinderGeometry(5.5,5.5, 7, 30);
+    var baseGeo2 = new THREE.CylinderGeometry(5.5, 5.5, 7, 30);
 
     var orbit = new OrbitControls(camera, renderer.domElement);
     orbit.enableZoom = false;
 
-    //add meshes to group and then add group to scene
     var group = new THREE.Group();
     var group2 = new THREE.Group();
 
-    var material = new THREE.MeshStandardMaterial({color: "rgb(232, 232, 232)"});
+    var material = new THREE.MeshStandardMaterial({
+        color: "rgb(232, 232, 232)",
+    });
     var tip = new THREE.Mesh(cylinderGeometry, material);
     var shaft = new THREE.Mesh(knittingShaft, material);
     var base = new THREE.Mesh(baseGeo, material);
@@ -72,10 +65,9 @@ export default function loadingMesh() {
 
     group2.rotateY(2);
 
-
     scene.add(group, group2);
 
-    var render = function() {
+    var render = function () {
         requestAnimationFrame(render);
         group.rotation.x += 0.005;
         group.rotation.y += 0.005;

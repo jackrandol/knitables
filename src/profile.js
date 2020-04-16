@@ -12,7 +12,7 @@ export default class Profile extends React.Component {
     render() {
         return (
             <div>
-                <h1 className='componentTitle'>
+                <h1 className="componentTitle">
                     Welcome, {this.props.first} {this.props.last}
                 </h1>
 
@@ -31,7 +31,6 @@ export default class Profile extends React.Component {
                     />
                 </div>
             </div>
-            // <Wall otherUserId={this.props.id} />
         );
     }
 }

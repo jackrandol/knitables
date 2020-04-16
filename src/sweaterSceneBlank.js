@@ -20,9 +20,7 @@ export default function sweaterSceneBlank() {
 
     var light = new THREE.AmbientLight(0xffffff, 0.5);
 
-
     var light2 = new THREE.PointLight(0xffffff, 0.4);
-
 
     window.addEventListener("resize", () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -34,7 +32,7 @@ export default function sweaterSceneBlank() {
     var geometry = new THREE.SphereGeometry(9, 32, 32);
 
     var cylinderGeometry = new THREE.CylinderGeometry(7, 10, 25, 30, {
-        openEnded: false
+        openEnded: false,
     });
 
     ////tube
@@ -47,7 +45,7 @@ export default function sweaterSceneBlank() {
     CustomSinCurve.prototype = Object.create(THREE.Curve.prototype);
     CustomSinCurve.prototype.constructor = CustomSinCurve;
 
-    CustomSinCurve.prototype.getPoint = function(t) {
+    CustomSinCurve.prototype.getPoint = function (t) {
         var tx = t * 3 - 1.5;
         var ty = Math.sin(1 * Math.PI * t);
         var tz = 0;
@@ -59,37 +57,44 @@ export default function sweaterSceneBlank() {
 
     var tubeGeometry = new THREE.TubeGeometry(path, 20, 2.5, 9, false);
 
-    // var tubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-
-    // var loader = new THREE.TextureLoader();
-
-    var materialHead = new THREE.MeshLambertMaterial({ color: "rgb(212, 212, 212)"});
+    var materialHead = new THREE.MeshLambertMaterial({
+        color: "rgb(212, 212, 212)",
+    });
     var head = new THREE.Mesh(geometry, materialHead);
 
-    var materialBody = new THREE.MeshPhongMaterial({ color: "rgb(212, 212, 212)" });
-    materialBody.normalMap = new THREE.TextureLoader().load('./knit.png');
+    var materialBody = new THREE.MeshPhongMaterial({
+        color: "rgb(212, 212, 212)",
+    });
+    materialBody.normalMap = new THREE.TextureLoader().load("./knit.png");
 
     //BODY
     var points = [];
     for (var i = 0; i < 18; i++) {
         points.push(new THREE.Vector2(8 + Math.sin(i * 0.02) * 20, i * 1.2));
     }
-    // points = points.reverse();
+
     var bodygeometry = new THREE.LatheGeometry(points);
     console.log("points", points);
     var newBody = new THREE.Mesh(bodygeometry, materialBody);
 
-    var materialRightSleeve = new THREE.MeshPhongMaterial({ color: "rgb(212, 212, 212)" });
-    materialRightSleeve.normalMap = new THREE.TextureLoader().load('./knit.png');
+    var materialRightSleeve = new THREE.MeshPhongMaterial({
+        color: "rgb(212, 212, 212)",
+    });
+    materialRightSleeve.normalMap = new THREE.TextureLoader().load(
+        "./knit.png"
+    );
     var rightArm = new THREE.Mesh(tubeGeometry, materialRightSleeve);
 
-    var materialLeftSleeve = new THREE.MeshPhongMaterial({ color: "rgb(212, 212, 212)" });
-    materialLeftSleeve.normalMap = new THREE.TextureLoader().load('./knit.png');
+    var materialLeftSleeve = new THREE.MeshPhongMaterial({
+        color: "rgb(212, 212, 212)",
+    });
+    materialLeftSleeve.normalMap = new THREE.TextureLoader().load("./knit.png");
     var leftArm = new THREE.Mesh(tubeGeometry, materialLeftSleeve);
 
     var necklineGeometry = new THREE.TorusGeometry(7, 1.2, 30, 100);
-    var materialRib = new THREE.MeshPhongMaterial({ color: "rgb(212, 212, 212)" });
+    var materialRib = new THREE.MeshPhongMaterial({
+        color: "rgb(212, 212, 212)",
+    });
     var neckline = new THREE.Mesh(necklineGeometry, materialRib);
 
     var hemGeometry = new THREE.TorusGeometry(14.8, 0.8, 30, 100);
@@ -115,12 +120,12 @@ export default function sweaterSceneBlank() {
             width: 200,
             linesHeight: 10,
             linesWidth: 10,
-            color: 0xFFFFFF
+            color: 0xffffff,
         };
 
         var material = new THREE.LineBasicMaterial({
             color: config.color,
-            opacity: 0.3
+            opacity: 0.3,
         });
 
         var gridObject = new THREE.Object3D(),
@@ -166,7 +171,7 @@ export default function sweaterSceneBlank() {
     rightCuff.position.set(23, -10.4, 0);
     line.rotateX(Math.PI / 2);
     line.position.set(0, -30, 0);
-    grid.rotateX(Math.PI /2);
+    grid.rotateX(Math.PI / 2);
     grid.position.set(0, -35, 0);
 
     var orbit = new OrbitControls(camera, renderer.domElement);
@@ -174,7 +179,6 @@ export default function sweaterSceneBlank() {
 
     //add meshes to group and then add group to scene
     var group = new THREE.Group();
-
 
     group.add(neckline);
     group.add(head);
@@ -190,7 +194,7 @@ export default function sweaterSceneBlank() {
     scene.add(light);
     scene.add(light2);
 
-    var render = function() {
+    var render = function () {
         requestAnimationFrame(render);
         group.rotation.y += 0.005;
         renderer.render(scene, camera);

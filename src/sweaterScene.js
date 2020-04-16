@@ -33,14 +33,13 @@ export default function sweaterScene(
     window.addEventListener("resize", () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
         camera.aspect = window.innerWidth / window.innerHeight;
-
         camera.updateProjectionMatrix();
     });
 
     var geometry = new THREE.SphereGeometry(9, 32, 32);
 
     var cylinderGeometry = new THREE.CylinderGeometry(7, 10, 25, 30, {
-        openEnded: false
+        openEnded: false,
     });
 
     ////tube
@@ -53,7 +52,7 @@ export default function sweaterScene(
     CustomSinCurve.prototype = Object.create(THREE.Curve.prototype);
     CustomSinCurve.prototype.constructor = CustomSinCurve;
 
-    CustomSinCurve.prototype.getPoint = function(t) {
+    CustomSinCurve.prototype.getPoint = function (t) {
         var tx = t * 3 - 1.5;
         var ty = Math.sin(1 * Math.PI * t);
         var tz = 0;
@@ -62,21 +61,14 @@ export default function sweaterScene(
     };
 
     var path = new CustomSinCurve(7);
-
     var tubeGeometry = new THREE.TubeGeometry(path, 20, 2.5, 9, false);
-
-    // var tubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-
     var loader = new THREE.TextureLoader();
-
     var materialHead = new THREE.MeshPhongMaterial();
     materialHead.map = loader.load(headImage);
     var head = new THREE.Mesh(geometry, materialHead);
-
-    var materialBody = new THREE.MeshStandardMaterial({roughness: 0.3});
+    var materialBody = new THREE.MeshStandardMaterial({ roughness: 0.3 });
     materialBody.map = loader.load(bodyImage);
-    materialBody.normalMap = new THREE.TextureLoader().load('./knit.png');
+    materialBody.normalMap = new THREE.TextureLoader().load("./knit.png");
 
     //BODY
     var points = [];
@@ -116,28 +108,18 @@ export default function sweaterScene(
     line.material.depthTest = false;
     line.material.opacity = 0.25;
     line.material.transparent = true;
-    //
-    // opts =
-    // {
-    //     height: width,
-    //     width: depth,
-    //     linesHeight: b,
-    //     linesWidth: c,
-    //     color: 0xcccccc
-    // }
-
     function createAGrid(opts) {
         var config = opts || {
             height: 200,
             width: 200,
             linesHeight: 10,
             linesWidth: 10,
-            color: 0xFFFFFF
+            color: 0xffffff,
         };
 
         var material = new THREE.LineBasicMaterial({
             color: config.color,
-            opacity: 0.3
+            opacity: 0.3,
         });
 
         var gridObject = new THREE.Object3D(),
@@ -170,7 +152,7 @@ export default function sweaterScene(
     leftArm.position.set(-14, -6, 0);
     head.position.set(0, 20, 0);
     head.rotateY(-1.3);
-    head.rotateZ(-.3);
+    head.rotateZ(-0.3);
     newBody.position.set(0, 5, 0);
     newBody.rotateX(Math.PI);
     neckline.rotateX(Math.PI / 2);
@@ -185,15 +167,13 @@ export default function sweaterScene(
     rightCuff.position.set(23, -10.4, 0);
     line.rotateX(Math.PI / 2);
     line.position.set(0, -30, 0);
-    grid.rotateX(Math.PI /2);
+    grid.rotateX(Math.PI / 2);
     grid.position.set(0, -35, 0);
 
     var orbit = new OrbitControls(camera, renderer.domElement);
     orbit.enableZoom = false;
 
-    //add meshes to group and then add group to scene
     var group = new THREE.Group();
-
 
     group.add(neckline);
     group.add(head);
@@ -207,9 +187,8 @@ export default function sweaterScene(
 
     scene.add(group);
 
-    var render = function() {
+    var render = function () {
         requestAnimationFrame(render);
-        // group.rotation.y += 0.005;
         renderer.render(scene, camera);
     };
     render();

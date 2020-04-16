@@ -1,10 +1,11 @@
 const spicedPg = require("spiced-pg");
 
-const db = spicedPg(process.env.DATABASE_URL || `postgres://postgres:postgres@localhost:5432/knitables`);
+const db = spicedPg(
+    process.env.DATABASE_URL ||
+        `postgres://postgres:postgres@localhost:5432/knitables`
+);
 
-exports.addUser = function(first, last, email, password) {
-    console.log('data inserted into users DB table!');
-
+exports.addUser = function (first, last, email, password) {
     return db.query(
         `INSERT INTO users (first, last, email, password)
         VALUES ($1, $2, $3, $4)
@@ -13,22 +14,17 @@ exports.addUser = function(first, last, email, password) {
     );
 };
 
-exports.getPassword = function(inputEmail) {
-    return db.query(
-        `SELECT password, id FROM users WHERE email = $1`,
-        [inputEmail]
-    );
+exports.getPassword = function (inputEmail) {
+    return db.query(`SELECT password, id FROM users WHERE email = $1`, [
+        inputEmail,
+    ]);
 };
 
-exports.getUserByEmail = function(email) {
-    return db.query(
-        `SELECT id FROM users WHERE email = $1`,
-        [email]
-    );
+exports.getUserByEmail = function (email) {
+    return db.query(`SELECT id FROM users WHERE email = $1`, [email]);
 };
 
-exports.addCodeToTable = function(secretCode, email) {
-    console.log('data trying to get into code table!!!!');
+exports.addCodeToTable = function (secretCode, email) {
     return db.query(
         `INSERT INTO password_reset_codes (code, email)
         VALUES ($1, $2)`,
@@ -36,8 +32,7 @@ exports.addCodeToTable = function(secretCode, email) {
     );
 };
 
-exports.getCode = function(email) {
-    console.log('getting code!');
+exports.getCode = function (email) {
     return db.query(
         `SELECT code FROM password_reset_codes
         WHERE CURRENT_TIMESTAMP - create_at < INTERVAL '10' MINUTE
@@ -46,8 +41,7 @@ exports.getCode = function(email) {
     );
 };
 
-exports.updatePassword = function(newPassword, email) {
-    console.log('updating password!');
+exports.updatePassword = function (newPassword, email) {
     return db.query(
         `UPDATE users SET password = $1
         WHERE email = $2`,
@@ -55,8 +49,7 @@ exports.updatePassword = function(newPassword, email) {
     );
 };
 
-exports.getUser = function(userId) {
-    console.log('getting user from DB');
+exports.getUser = function (userId) {
     return db.query(
         `SELECT * FROM users
         WHERE id = $1`,
@@ -64,8 +57,7 @@ exports.getUser = function(userId) {
     );
 };
 
-exports.addImage = function(url, userId) {
-    console.log("***data inserted into images DB table***");
+exports.addImage = function (url, userId) {
     return db.query(
         `UPDATE users SET imageurl = $1
         WHERE id = $2
@@ -74,8 +66,7 @@ exports.addImage = function(url, userId) {
     );
 };
 
-exports.addSweaterBodyImage = function(url, userId) {
-    console.log('data going into sweater parts tables');
+exports.addSweaterBodyImage = function (url, userId) {
     return db.query(
         `INSERT INTO sweater (body_image, user_id)
         VALUES ($1, $2)
@@ -86,8 +77,7 @@ exports.addSweaterBodyImage = function(url, userId) {
     );
 };
 
-exports.uploadRightSleeve = function(url, userId) {
-    console.log('data going into sweater parts tables');
+exports.uploadRightSleeve = function (url, userId) {
     return db.query(
         `INSERT INTO sweater (sleeve_right_image, user_id)
         VALUES ($1, $2)
@@ -98,8 +88,7 @@ exports.uploadRightSleeve = function(url, userId) {
     );
 };
 
-exports.uploadLeftSleeve = function(url, userId) {
-    console.log('data going into sweater parts tables');
+exports.uploadLeftSleeve = function (url, userId) {
     return db.query(
         `INSERT INTO sweater (sleeve_left_image, user_id)
         VALUES ($1, $2)
@@ -110,7 +99,7 @@ exports.uploadLeftSleeve = function(url, userId) {
     );
 };
 
-exports.saveRibColor = function(color, userId) {
+exports.saveRibColor = function (color, userId) {
     return db.query(
         `INSERT INTO sweater (rib, user_id)
         VALUES ($1, $2)
@@ -142,7 +131,6 @@ exports.getAllProjects = function () {
 };
 
 exports.getCurrentProject = function (projectId) {
-    console.log('db query of getCurrentProject');
     return db.query(
         `SELECT sweater.*, users.imageurl, users.first, users.last, users.created_at
         FROM sweater
@@ -153,8 +141,7 @@ exports.getCurrentProject = function (projectId) {
     );
 };
 
-exports.addBio = function(bioText, userId) {
-    console.log("data going into bio field!");
+exports.addBio = function (bioText, userId) {
     return db.query(
         `UPDATE users SET bio = $1
         WHERE id = $2
@@ -162,11 +149,6 @@ exports.addBio = function(bioText, userId) {
         [bioText, userId]
     );
 };
-
-//for query getting password_reset_codes check the timestamp and see that it's not
-//more than ten minutes old
-
-
 
 exports.newWallPost = function (sender_id, post, project_id) {
     return db.query(

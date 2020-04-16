@@ -1,10 +1,8 @@
-import axios from 'axios';
-
-
+import axios from "axios";
 
 var copy = axios.create({
-    xsrfCookieName: 'mytoken',
-    xsrfHeaderName: 'csrf-token' // the csurf middleware automatically checks this header for the token
+    xsrfCookieName: "mytoken",
+    xsrfHeaderName: "csrf-token",
 });
 
 export default copy;

@@ -6,8 +6,8 @@ import Moment from "react-moment";
 export default function Wall() {
     const dispatch = useDispatch();
 
-    let currentProject = useSelector(state => state && state.currentProject);
-    let wallPosts = useSelector(state => state && state.posts);
+    let currentProject = useSelector((state) => state && state.currentProject);
+    let wallPosts = useSelector((state) => state && state.posts);
 
     useEffect(() => {
         if (currentProject) {
@@ -15,10 +15,9 @@ export default function Wall() {
         }
     }, [currentProject]);
 
-    const keyCheck = e => {
-        // console.log("etargetvalue:", e.target.value);
+    const keyCheck = (e) => {
         let postData = {
-            project_id: currentProject[0].id
+            project_id: currentProject[0].id,
         };
 
         if (e.key === "Enter") {
@@ -44,7 +43,7 @@ export default function Wall() {
                 ></textarea>
                 <div className="wall">
                     {wallPosts &&
-                        wallPosts.map(post => (
+                        wallPosts.map((post) => (
                             <div className="wallPost" key={post.id}>
                                 <img
                                     className="wallPic"
