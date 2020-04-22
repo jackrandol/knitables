@@ -4,19 +4,19 @@
 
 Knitables-II is a tool for visualizing sweater patterns on a three dimensional form developed with React. User projects are visible to other users who can comment and share ideas.
 
-![alt text](https://github.com/jackrandol/knitables-II/blob/master/public/ScreenshotProjectPreview.png "Knitting Page")
+![](https://github.com/jackrandol/knitables-II/blob/master/public/PreviewProjectPages.gif "Knitting Page")
 
 ### Features
 
 Users can sign up or log in with a user account and first edit their profile with a picture of themselves and a small text about themselves. In the 'Knit' section users are asked to upload different images to three segments of a sweater, body, left sleeve and right sleeve. After the users uploads three images ( stored with AWS S3 in the cloud ) they will choose a color for the "ribbed" edges of the sweater. In the 'Preview' section users can then view their sweater with their images mapped onto a three dimensional model. In the 'Projects' section users can view all projects from other users and make/read comments on a comment wall.
 
-#### Tech Stack
+#### Tech Stack:
 
-HTML, CSS, JavaScript, Node.js, Express, bcrypt/salt, PostgreSQL, Three.js, bcrypt/salt
+-   HTML, CSS, JavaScript, Node.js, Express, bcrypt/salt, PostgreSQL, Three.js, bcrypt/salt
 
 #### Framework
 
-React with Redux and Hooks
+-   React with Redux and Hooks
 
 ## Run-through
 

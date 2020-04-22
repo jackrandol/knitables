@@ -14,7 +14,7 @@ export default function Preview() {
     return (
         <div>
             <div className="previewTitle">
-                <h1 className="componentTitle">Project Preview</h1>
+                <h1 className="componentTitle">Sweater Preview</h1>
             </div>
             <div className="scene"></div>
             {sweater &&

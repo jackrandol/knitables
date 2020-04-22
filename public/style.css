@@ -15,14 +15,15 @@
     color: white;
     font-size: 50px;
     font-weight: 400;
-    z-index: 7;
+    z-index: 10;
+    margin-top: 20px;
+    position: relative;
 }
 
 .previewTitle {
     position: fixed;
     z-index: 10;
 }
-
 
 .registration {
     background-color: black;
@@ -59,23 +60,22 @@
 }
 
 @keyframes pulse {
-  from {
-    transform: scale3d(1, 1, 1);
-  }
+    from {
+        transform: scale3d(1, 1, 1);
+    }
 
-  50% {
-    transform: scale3d(1.05, 1.05, 1.05);
-  }
+    50% {
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
 
-  to {
-    transform: scale3d(1, 1, 1);
-  }
+    to {
+        transform: scale3d(1, 1, 1);
+    }
 }
 
 .pulse {
     animation-name: pulse;
 }
-
 
 .loading {
     position: fixed;
@@ -98,12 +98,9 @@ h2 {
 h1 {
     font-size: 18px;
     padding: 5px 0px;
-
 }
 
-
 input {
-
     border: 0px;
     border-bottom: white 1px solid;
     margin-right: 10px;
@@ -112,8 +109,6 @@ input {
     font-size: 15px;
     width: 200px;
 }
-
-
 
 .logo {
     width: 70px;
@@ -146,12 +141,11 @@ input {
     height: 300px;
     background-color: black;
     border-bottom: yellow 5px solid;
-    animation: .5s ease-out .0s 1 slideInFromTop;
+    animation: 0.5s ease-out 0s 1 slideInFromTop;
     display: flex;
     flex-direction: column;
     padding: 10px;
 }
-
 
 .profile {
     display: flex;
@@ -163,12 +157,11 @@ input {
     border: 1px tomato solid;
     margin: 0px 20px;
     padding: 15px 15px;
-
 }
 
 .welcomeHeader {
     font-size: 30px;
-    color: red;
+    color: black;
     top: 0px;
     margin: 0;
     font-family: Serif;
@@ -193,7 +186,7 @@ input {
 }
 
 .leftNav:hover {
-    animation: .25s ease-out .0s 1  sideSlide;
+    animation: 0.25s ease-out 0s 1 sideSlide;
     animation-timing-function: ease-in;
     animation-fill-mode: forwards;
 }
@@ -212,7 +205,7 @@ input {
 }
 
 .loadingMesh {
-    position:fixed;
+    position: fixed;
     height: 600px;
     width: 600px;
 }
@@ -237,7 +230,7 @@ input {
 .hello {
     font-style: italic;
     font-size: 15px;
-    color: red;
+    color: black;
     padding: 10px 10px;
 }
 
@@ -281,8 +274,6 @@ button {
     justify-content: center;
 }
 
-
-
 .circle {
     position: fixed;
     background-color: black;
@@ -296,8 +287,7 @@ button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    box-shadow: 0px 0px 16px 15px rgba(0,0,0,0.89);
-
+    box-shadow: 0px 0px 16px 15px rgba(0, 0, 0, 0.89);
 }
 
 .profilePic {
@@ -310,7 +300,6 @@ button {
     color: black;
 }
 
-
 .imageUploaderBox {
     position: fixed;
     top: 75px;
@@ -320,15 +309,14 @@ button {
     padding: 15px;
 }
 
-
 .chooseFile {
     cursor: pointer;
 }
 
 .closeUploaderButton {
-    position:absolute;
+    position: absolute;
     bottom: 5px;
-    cursor:pointer;
+    cursor: pointer;
     font-size: 15px;
 }
 
@@ -351,7 +339,7 @@ button {
 }
 
 .projectCard:hover {
-    box-shadow: 10px 10px 5px 0px rgba(245, 236, 66,0.75);
+    box-shadow: 10px 10px 5px 0px rgba(245, 236, 66, 0.75);
 }
 
 .projectPic {
@@ -361,7 +349,6 @@ button {
 .wall {
     overflow: scroll;
     height: 330px;
-
 }
 
 .completeWall {
@@ -396,16 +383,16 @@ button {
     color: black;
 }
 #inputFile {
-	width: 50px;
-	height: 20px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+    width: 50px;
+    height: 20px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
 }
 
 .pixelator {
-    position:fixed;
+    position: fixed;
     width: 200px;
     height: 500px;
     background-color: yellow;

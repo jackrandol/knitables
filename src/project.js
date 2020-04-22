@@ -18,13 +18,12 @@ export default function Project() {
 
     return (
         <div>
-            <p className="componentTitle">Other Project Page</p>
             <div className="scene"></div>
             {currentProject &&
                 currentProject.map((project) => (
                     <div key={project.id}>
-                        <p>
-                            {project.first} {project.last}
+                        <p className="componentTitle">
+                            {project.first}'s Project
                         </p>
                         {sweaterScene(
                             project.body_image,
