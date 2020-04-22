@@ -12,7 +12,7 @@ Users can sign up or log in with a user account and first edit their profile wit
 
 #### Tech Stack:
 
--   HTML, CSS, JavaScript, Node.js, Express, bcrypt/salt, PostgreSQL, Three.js, bcrypt/salt
+-   HTML, CSS, JavaScript, Node.js, Express, bcrypt/salt, PostgreSQL, Three.js, bcrypt/salt, Moment.js
 
 #### Framework
 
@@ -20,7 +20,7 @@ Users can sign up or log in with a user account and first edit their profile wit
 
 ## Run-through
 
-![alt text](https://github.com/jackrandol/knitables-II/blob/master/public/ScreenshotKnit.png "Knitting Page")
+![](https://github.com/jackrandol/knitables-II/blob/master/public/KnittingProcess.gif "Knitting Time")
 
 ## _For Further Development_
 
