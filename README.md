@@ -1,4 +1,4 @@
-# knitables-II
+# Knitables-II
 
 ### Project Overview
 
@@ -14,7 +14,7 @@ Users can sign up or log in with a user account and first edit their profile wit
 
 -   HTML, CSS, JavaScript, Node.js, Express, bcrypt/salt, PostgreSQL, Three.js, bcrypt/salt, Moment.js
 
-#### Framework
+#### Framework:
 
 -   React with Redux and Hooks
 
@@ -27,3 +27,10 @@ Users can sign up or log in with a user account and first edit their profile wit
 -   Right now users can only develop one project. It would be helpful to be able to develop more than one sweater option and edit the individual pieces.
 -   Once the users can develop multiple sweaters, there should be a project list page for viewing those projects. Ideally you would be able to see the sweaters together to be able to compare options.
 -   The 3D Meshes for the sweater were coded with Three.js geometries. It would be better to make these in blender, or similar 3D modelling software, to have more realistic shapes.
+
+## Run
+
+-   Clone Repo
+-   cd into directory
+-   node .
+-   node bundle-server.js
