@@ -32,5 +32,7 @@ Users can sign up or log in with a user account and first edit their profile wit
 
 -   Clone Repo
 -   cd into directory
+-   npm install
+-   create 'secrets.json' file with an AWS-Key and AWS-Secret for uploading
 -   node .
 -   node bundle-server.js
