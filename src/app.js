@@ -7,7 +7,7 @@ import Preview from "./preview";
 import Projects from "./projects";
 import Project from "./project";
 import { BrowserRouter, Route, Link } from "react-router-dom";
-import logoMesh from "./logo";
+import logoMesh from "./Scenes/logo";
 
 export default class App extends React.Component {
     constructor(props) {

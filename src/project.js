@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getCurrentProject } from "./actions";
-import sweaterScene from "./sweaterScene";
+import sweaterScene from "./Scenes/sweaterScene";
 import Wall from "./wall";
 
 export default function Project() {
@@ -23,7 +23,7 @@ export default function Project() {
                 currentProject.map((project) => (
                     <div key={project.id}>
                         <p className="componentTitle">
-                            {project.first}'s Project
+                            {project.first}s Project
                         </p>
                         {sweaterScene(
                             project.body_image,

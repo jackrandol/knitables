@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getSweater } from "./actions";
-import sweaterScene from "./sweaterScene";
+import sweaterScene from "./Scenes/sweaterScene";
 
 export default function Preview() {
     const dispatch = useDispatch();

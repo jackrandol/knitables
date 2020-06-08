@@ -49,10 +49,10 @@ export default class Profile extends React.Component {
             <div>
                 <h1>Bio</h1>
                 {this.state.bioVisible && (
-                    <>
+                    <div>
                         <p> {this.props.bio} </p>
                         <button onClick={this.handleClick}>edit bio</button>
-                    </>
+                    </div>
                 )}
 
                 {this.state.addButtonVisible && (

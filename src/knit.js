@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import sweaterSceneBlank from "./sweaterSceneBlank";
+import sweaterSceneBlank from "./Scenes/sweaterSceneBlank";
 import ImageUploader from "./imageuploader";
 
 export default function Knit() {

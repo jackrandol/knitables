@@ -8,7 +8,7 @@ import {
 } from "./actions";
 import { Link } from "react-router-dom";
 import { SliderPicker } from "react-color";
-import loadingMesh from "./loadingMesh";
+import loadingMesh from "./Scenes/loadingMesh";
 
 export default function ImageUploader() {
     const [buttonText, setButtonText] = useState("Add Body Image");
@@ -30,7 +30,6 @@ export default function ImageUploader() {
     let color;
 
     const handleFile = (e) => {
-        console.log("e.target", e.target.files[0]);
         let fileName = document.querySelector(".chooseFile");
         fileName.innerText = e.target.files[0].name.slice(0, 15) + " . . .";
 
