@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const server = require("http").Server(app);
@@ -29,13 +30,14 @@ const auth = function (req, res, next) {
 app.use(auth);
 app.use(cookieSessionMiddleware);
 app.use(compression());
+app.use(express.static("public"));
+app.use(express.static("uploads"));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(
     express.urlencoded({
         extendend: false,
     })
 );
-app.use(express.static("public"));
-app.use(express.static("uploads"));
 app.use(express.json());
 
 app.use(require("csurf")());
@@ -50,7 +52,7 @@ if (process.env.NODE_ENV != "production") {
     app.use(
         "/bundle.js",
         require("http-proxy-middleware")({
-            target: "http://localhost:8081/",
+            target: process.env.URL || "http://localhost:8081/",
         })
     );
 } else {
