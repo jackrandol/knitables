@@ -5,10 +5,10 @@ import {
     uploadRightSleeveImage,
     uploadLeftSleeveImage,
     saveRibColor,
-} from "./actions";
+} from "../Redux/actions";
 import { Link } from "react-router-dom";
 import { SliderPicker } from "react-color";
-import loadingMesh from "./Scenes/loadingMesh";
+import loadingMesh from "../Scenes/loadingMesh";
 
 export default function ImageUploader() {
     const [buttonText, setButtonText] = useState("Add Body Image");

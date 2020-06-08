@@ -1,7 +1,6 @@
 import React from "react";
 import ProfilePic from "./profilepic";
 import Bioeditor from "./bioeditor";
-import Wall from "./wall";
 
 export default class Profile extends React.Component {
     constructor(props) {

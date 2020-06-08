@@ -1,11 +1,11 @@
 import React from "react";
 import axios from "./axioscopy";
-import Uploader from "./uploader";
-import Profile from "./profile";
-import Knit from "./knit";
-import Preview from "./preview";
-import Projects from "./projects";
-import Project from "./project";
+import Uploader from "./User-Profile/uploader";
+import Profile from "./User-Profile/profile";
+import Knit from "./Knit-Components/knit";
+import Preview from "./Knit-Components/preview";
+import Projects from "./Project-Viewing-Components/projects";
+import Project from "./Project-Viewing-Components/project";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import logoMesh from "./Scenes/logo";
 

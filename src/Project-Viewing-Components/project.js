@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getCurrentProject } from "./actions";
-import sweaterScene from "./Scenes/sweaterScene";
+import { getCurrentProject } from "../Redux/actions";
+import sweaterScene from "../Scenes/sweaterScene";
 import Wall from "./wall";
 
 export default function Project() {

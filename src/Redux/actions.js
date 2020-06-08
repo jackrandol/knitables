@@ -1,5 +1,4 @@
-// src/actions.js
-import axios from "./axioscopy";
+import axios from "../axioscopy";
 
 export async function getProjects() {
     const { data } = await axios.get(`/api/projects`);

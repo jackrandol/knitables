@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getWallPosts, newWallPost } from "./actions";
+import { getWallPosts, newWallPost } from "../Redux/actions";
 import Moment from "react-moment";
 
 export default function Wall() {

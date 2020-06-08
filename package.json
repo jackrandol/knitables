@@ -21,6 +21,7 @@
         "aws-sdk": "^2.636.0",
         "axios": "^0.19.0",
         "babel-loader": "^8.0.5",
+        "basic-auth": "^2.0.1",
         "bcryptjs": "^2.4.3",
         "canvas-dither": "^1.0.0",
         "compression": "^1.7.0",

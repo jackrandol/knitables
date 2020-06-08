@@ -6,12 +6,27 @@ const server = require("http").Server(app);
 const authRoutes = require("./Server/routes/authRoutes");
 const knitableRoutes = require("./Server/routes/knitableRoutes");
 const wallPostRoutes = require("./Server/routes/wallPostRoutes");
+const basicAuth = require("basic-auth");
 
 const cookieSessionMiddleware = cookieSession({
     secret: `I'm always angry.`,
     maxAge: 1000 * 60 * 60 * 24 * 90,
 });
 
+const auth = function (req, res, next) {
+    const creds = basicAuth(req);
+    if (!creds || creds.name != "knitmaster" || creds.pass != "opensesame") {
+        res.setHeader(
+            "WWW-Authenticate",
+            'Basic realm="Enter your credentials to see this stuff."'
+        );
+        res.sendStatus(401);
+    } else {
+        next();
+    }
+};
+
+app.use(auth);
 app.use(cookieSessionMiddleware);
 app.use(compression());
 app.use(

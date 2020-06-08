@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import sweaterSceneBlank from "./Scenes/sweaterSceneBlank";
+import sweaterSceneBlank from "../Scenes/sweaterSceneBlank";
 import ImageUploader from "./imageuploader";
 
 export default function Knit() {

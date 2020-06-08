@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "./axioscopy";
+import axios from "../axioscopy";
 
 export default class Uploader extends React.Component {
     constructor(props) {

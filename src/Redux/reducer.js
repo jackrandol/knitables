@@ -1,5 +1,3 @@
-// src/reducer.js
-
 export default function (state = {}, action) {
     if (action.type == "GET_CURRENT_PROJECT") {
         state = {
