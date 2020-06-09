@@ -60,6 +60,7 @@ export default function sweaterScene(
     var tubeGeometry = new THREE.TubeGeometry(path, 20, 2.5, 9, false);
     var loader = new THREE.TextureLoader();
     var materialHead = new THREE.MeshPhongMaterial();
+    console.log(headImage);
     materialHead.map = loader.load(headImage);
     var head = new THREE.Mesh(geometry, materialHead);
     var materialBody = new THREE.MeshStandardMaterial({ roughness: 0.3 });

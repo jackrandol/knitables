@@ -41,7 +41,8 @@ export async function uploadBodyImage(bodyImage) {
     } catch (error) {
         return {
             type: "ERROR",
-            error: "something went wrong with your body image upload",
+            error:
+                "Oops, something went wrong with your upload.  Was your image less than 2.0 MB?",
         };
     }
 }
@@ -58,24 +59,8 @@ export async function uploadRightSleeveImage(image) {
     } catch (error) {
         return {
             type: "ERROR",
-            error: "something went wrong with right sleeve upload",
-        };
-    }
-}
-
-export async function uploadLeftSleeveImage(image) {
-    try {
-        var formData = new FormData();
-        formData.append("file", image);
-        const { data } = await axios.post("/uploadLeftSleeve", formData);
-        return {
-            type: "UPLOAD_LEFT_SLEEVE",
-            leftSleeveImage: data,
-        };
-    } catch (error) {
-        return {
-            type: "ERROR",
-            error: "something went wrong with left sleeve upload",
+            error:
+                "Oops, something went wrong with your upload.  Was your image less than 2.0 MB?",
         };
     }
 }

@@ -30,10 +30,14 @@ export default function ImageUploader() {
     let color;
 
     const handleFile = (e) => {
+        console.log("e.target.files", e.target.files[0]);
         let fileName = document.querySelector(".chooseFile");
         fileName.innerText = e.target.files[0].name.slice(0, 15) + " . . .";
 
         image = e.target.files[0];
+        toggleError(false);
+        toggleLoading(false);
+        e.target.value = "";
     };
 
     let fileName = document.querySelector(".chooseFile");
@@ -41,7 +45,7 @@ export default function ImageUploader() {
     useEffect(() => {
         toggleLoading(false);
         if (bodyImage) {
-            fileName.innerText = "choose file...";
+            fileName.innerText = "Click here to select a file...";
             setUploaderText("Add an image for the right sleeve.");
             setButtonText("Add Right Sleeve Image");
             toggleError(false);
@@ -50,7 +54,7 @@ export default function ImageUploader() {
         if (rightSleeve) {
             toggleLoading(false);
             toggleError(false);
-            fileName.innerText = "choose file...";
+            fileName.innerText = "Click here to select a file...";
             setUploaderText("Add an image for the left sleeve.");
             setButtonText("Add Left Sleeve Image");
         }
@@ -70,12 +74,14 @@ export default function ImageUploader() {
             setUploaderText("Now you can preview your sweater!");
             setButtonText("Done!");
         }
+    }, [bodyImage, rightSleeve, leftSleeve, ribColor]);
 
+    useEffect(() => {
         if (errorMessageFromReducer) {
             toggleLoading(false);
             toggleError(true);
         }
-    }, [bodyImage, rightSleeve, leftSleeve, ribColor, errorMessageFromReducer]);
+    }, [errorMessageFromReducer]);
 
     useEffect(() => {
         if (isloading) {
@@ -85,18 +91,21 @@ export default function ImageUploader() {
 
     const handleClick = (e) => {
         e.preventDefault();
-
+        toggleError(false);
         if (buttonText == "Add Body Image") {
+            console.log("image", image);
             dispatch(uploadBodyImage(image));
             toggleLoading(true);
         }
 
         if (buttonText == "Add Right Sleeve Image") {
+            console.log("image", image);
             dispatch(uploadRightSleeveImage(image));
             toggleLoading(true);
         }
 
         if (buttonText == "Add Left Sleeve Image") {
+            console.log("image", image);
             dispatch(uploadLeftSleeveImage(image));
             toggleLoading(true);
         }
@@ -110,6 +119,7 @@ export default function ImageUploader() {
     const handleColor = (e) => {
         let rgbColor = `rgb(${e.rgb.r}, ${e.rgb.g}, ${e.rgb.b})`;
         color = rgbColor;
+        console.log(color);
     };
 
     return (
@@ -117,9 +127,16 @@ export default function ImageUploader() {
             <div className="imageUploaderBackground">
                 <div className="imageUploaderBox">
                     <h1>Image Uploader</h1>
+                    <p>
+                        Images must be less than 2.0 MB in size and .jpg or .png
+                        format
+                    </p>
                     <h1>{uploaderText}</h1>
                     {errorMessage && (
-                        <p>there was an error with your upload!</p>
+                        <p className="errorUpload">
+                            Oops, there was an error with your upload. Was your
+                            image too large?
+                        </p>
                     )}
                     <input
                         onChange={handleFile}
@@ -129,7 +146,7 @@ export default function ImageUploader() {
                         accept="image/*"
                     />
                     <label htmlFor="inputFile" className="chooseFile">
-                        Choose a file
+                        Click here to select a file...
                     </label>
                     {isloading && (
                         <div className="loadingMesh">
