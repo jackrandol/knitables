@@ -73,11 +73,6 @@ export default function ImageUploader() {
             setUploaderText("Now you can preview your sweater!");
             setButtonText("Done!");
         }
-
-        // if (errorMessageFromReducer) {
-        //     toggleLoading(false);
-        //     toggleError(true);
-        // }
     }, [bodyImage, rightSleeve, leftSleeve, ribColor]);
 
     useEffect(() => {
@@ -115,6 +110,7 @@ export default function ImageUploader() {
             dispatch(saveRibColor(color));
             toggleLoading(true);
         }
+        e.target.value = "";
     };
 
     const handleColor = (e) => {
