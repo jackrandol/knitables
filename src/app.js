@@ -53,7 +53,7 @@ export default class App extends React.Component {
         axios.get("/logOut").then(() => {
             console.log("user logged out");
         });
-        location.replace("/welcome");
+        location.replace("/welcome#");
     }
 
     render() {

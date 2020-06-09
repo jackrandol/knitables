@@ -65,6 +65,24 @@ export async function uploadRightSleeveImage(image) {
     }
 }
 
+export async function uploadLeftSleeveImage(image) {
+    try {
+        var formData = new FormData();
+        formData.append("file", image);
+        const { data } = await axios.post("/uploadLeftSleeve", formData);
+        return {
+            type: "UPLOAD_LEFT_SLEEVE",
+            leftSleeveImage: data,
+        };
+    } catch (error) {
+        return {
+            type: "ERROR",
+            error:
+                "Oops, something went wrong with your upload.  Was your image less than 2.0 MB?",
+        };
+    }
+}
+
 export async function saveRibColor(color) {
     try {
         const { data } = await axios.post(`/saveRibColor/${color}`);

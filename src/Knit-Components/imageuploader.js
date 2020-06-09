@@ -30,7 +30,6 @@ export default function ImageUploader() {
     let color;
 
     const handleFile = (e) => {
-        console.log("e.target.files", e.target.files[0]);
         let fileName = document.querySelector(".chooseFile");
         fileName.innerText = e.target.files[0].name.slice(0, 15) + " . . .";
 
@@ -74,6 +73,11 @@ export default function ImageUploader() {
             setUploaderText("Now you can preview your sweater!");
             setButtonText("Done!");
         }
+
+        // if (errorMessageFromReducer) {
+        //     toggleLoading(false);
+        //     toggleError(true);
+        // }
     }, [bodyImage, rightSleeve, leftSleeve, ribColor]);
 
     useEffect(() => {
@@ -93,19 +97,16 @@ export default function ImageUploader() {
         e.preventDefault();
         toggleError(false);
         if (buttonText == "Add Body Image") {
-            console.log("image", image);
             dispatch(uploadBodyImage(image));
             toggleLoading(true);
         }
 
         if (buttonText == "Add Right Sleeve Image") {
-            console.log("image", image);
             dispatch(uploadRightSleeveImage(image));
             toggleLoading(true);
         }
 
         if (buttonText == "Add Left Sleeve Image") {
-            console.log("image", image);
             dispatch(uploadLeftSleeveImage(image));
             toggleLoading(true);
         }
