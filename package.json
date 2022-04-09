@@ -35,7 +35,7 @@
         "http-proxy-middleware": "^0.19.1",
         "image-filter-threshold": "^2.0.1",
         "jest": "^24.7.1",
-        "moment": "^2.24.0",
+        "moment": "^2.29.2",
         "multer": "^1.3.0",
         "react": "^16.9.0-alpha.0",
         "react-color": "2.17.3",
